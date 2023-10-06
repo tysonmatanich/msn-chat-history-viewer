@@ -48,6 +48,11 @@ function runXslt(xmlDoc) {
 const emoticonsUrlPrefix = "emoticons/";
 let emoticons = [
   {
+    img: "penguin.gif",
+    key: "Penguin",
+    text: "(PG)",
+  },
+  {
     img: "74_74.gif",
     key: "Party",
     text: "<:o)",
