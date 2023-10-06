@@ -23,6 +23,7 @@ View your MSN Messenger chat history XML files in browser with early 2000's styl
 ## Known Issues
 
 - Some chat history XML files are missing @LogonName which custom names relies on to determine who sent the message
+- Testing for this tool was done in Chrome on Windows. Might not work correctly in other browsers. Feel free to open a pull request to help add support.
 
 ## Sources
 
