@@ -1,0 +1,406 @@
+:root {
+  --width: 475px;
+  --height: 400px;
+  --border-radius: 6px;
+  --toolbar-height: 60px;
+}
+
+@font-face {
+  font-family: "Verdana";
+  src:
+    url("../fonts/verdana.woff2") format("woff2"),
+    url("../fonts/verdana.woff") format("woff"),
+    url("../fonts/verdana.ttf") format("truetype");
+  font-display: swap;
+}
+
+.msn-messenger-window {
+  width: 100%;
+
+  >.container {
+    min-width: var(--width);
+    max-width: 1200px;
+    margin: 0 auto;
+
+    min-height: var(--height);
+    height: 80vh;
+    background: #D7E4F5 url('../ui/main-background.png') no-repeat;
+    background-position: right bottom;
+    display: grid;
+    grid-template-rows: var(--toolbar-height) 1fr 140px 2px;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow:
+      2px 2px 5px #0009,
+      5px 5px 10px #000c;
+    position: relative;
+    transform: translate(var(--x, 0), var(--y, 0));
+
+    font-size: 1em;
+
+    >.border-window {
+      position: absolute;
+      bottom: 0;
+      left: -1px;
+      width: calc(100% + 2px);
+      height: 100%;
+      background-image:
+        url('../ui/main-corner-left.png'),
+        url('../ui/main-corner-right.png'),
+        url('../ui/main-left.png'),
+        url('../ui/main-right.png'),
+        url('../ui/main-bottom.png');
+      background-repeat: no-repeat, no-repeat, repeat-y, repeat-y, repeat-x;
+      background-position: bottom left, bottom -1px right, bottom left, bottom right, bottom;
+      clip-path: polygon(0 calc(var(--toolbar-height) - 2px), 100% 20px, 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+  }
+}
+
+.msn-messenger-toolbar {
+  >.container {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    display: grid;
+    grid-template-columns: minmax(310px, 840px) 1.4fr;
+    position: relative;
+
+    .toolbar-container {
+      --min-toolbar-item-width: 56px;
+      --max-toolbar-item-width: 70px;
+
+      display: grid;
+      /* grid-template-columns: 40px 56px 44px 40px 54px 44px; */
+      grid-template-columns: minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(0, 2fr);
+      place-items: center;
+      justify-content: flex-end;
+      align-items: center;
+      background: url('../ui/toolbar-background.png') repeat;
+      background-size: contain;
+
+      &:after {
+        content: "";
+      }
+    }
+
+    .toolbar-small-container {
+      display: grid;
+      grid-template-columns: 50px 50px 37px 1fr;
+      height: 100%;
+
+      justify-content: stretch;
+    }
+
+    .toolbar-small-container .left {
+      background: url('../ui/small-toolbar-left-background.png') no-repeat;
+    }
+
+    .toolbar-small-container .center {
+      background:
+        url('../ui/msn-logo.png') top -3px left 4px,
+        url('../ui/small-toolbar-center-background.png');
+      background-repeat: no-repeat, repeat-x;
+    }
+
+    .toolbar-small-container .right {
+      background: url('../ui/small-toolbar-right-background.png') no-repeat;
+    }
+
+    .toolbar-small-container .end {
+      background: url('../ui/small-toolbar-end-background.png') repeat;
+    }
+
+    .center .buttons {
+      display: flex;
+      gap: 0 4px;
+      transform: translate(2px, 23px);
+    }
+
+    .center .image-circular-button {
+      --size: 19px;
+      --image-size: 13px;
+    }
+
+    .up-down {
+      --image-size: 15px;
+      position: absolute;
+      top: 2px;
+      left: 2px;
+    }
+  }
+}
+
+.image-circular-button {
+  >.container {
+    width: var(--size, 16px);
+    height: var(--size, 16px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../ui/small-circle-button.png') no-repeat;
+    background-size: cover;
+  }
+
+  img {
+    width: var(--image-size, 11px);
+    height: var(--image-size, 11px);
+  }
+}
+
+.image-button {
+  >.container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .text {
+    font-family: Verdana;
+    font-size: 0.65625em;
+    letter-spacing: -0.25px;
+    color: #434C4B;
+  }
+
+  .text em {
+    text-decoration: underline;
+    font-style: normal;
+  }
+}
+
+.msn-messenger-remote-user {
+  overflow: hidden;
+
+  >.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 132px;
+
+    padding: 4px 0 0 9px;
+    box-sizing: border-box;
+  }
+}
+
+.msn-messenger-history-chat {
+  margin-bottom: 5px;
+  margin-right: 10px;
+  overflow: hidden;
+
+  >.container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: 28px 1fr;
+    font-family: Verdana;
+    font-size: 0.625em;
+    width: 100%;
+
+    border: 1px solid #586170;
+    border-radius: 8px 8px 0 0;
+
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .subject {
+    border-radius: 8px 8px 0 0;
+    background: #EEF0FD;
+    display: flex;
+    align-items: center;
+    padding-left: 6px;
+    border-bottom: 1px solid #586170;
+    font-size: 1.2em;
+  }
+
+  .subject strong {
+    padding-left: 3px;
+  }
+
+  .logon-address {
+    &::before {
+      content: "\00a0<";
+    }
+
+    &::after {
+      content: ">";
+    }
+  }
+
+  .history {
+    background: #fff;
+
+    /*TODO: Added*/
+    overflow: hidden;
+    justify-content: stretch;
+  }
+}
+
+.msn-messenger-avatar {
+  >.container {
+    width: 114px;
+    height: 114px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #586170;
+    border-radius: 8px;
+    position: relative;
+  }
+
+  .picture {
+    width: 96px;
+    height: 96px;
+    border: 1px solid #586170;
+    border-radius: 8px;
+    transform: translateY(4px);
+  }
+
+  .down {
+    border: 0;
+    background: transparent;
+    color: #4D5967;
+    transform: scaleY(0.5);
+    align-self: flex-end;
+  }
+
+  .expand {
+    position: absolute;
+    top: 4px;
+    right: -9px;
+  }
+}
+
+.msn-messenger-local-user {
+  >.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 132px;
+    padding: 4px 0 0 9px;
+    box-sizing: border-box;
+  }
+}
+
+.msn-messenger-chat {
+  margin-right: 10px;
+
+  >.container {
+    display: grid;
+    grid-template-rows: 24px 1fr 24px;
+    min-height: 122px;
+    background: #fff;
+    width: 100%;
+    border: 1px solid #586170;
+    border-radius: 6px;
+  }
+
+  .actionbar,
+  .tabs {
+    background: linear-gradient(#D8E8F7, #F5F2F9, #D8E8F7);
+  }
+
+  .actionbar {
+    border-bottom: 1px solid #586170;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+  }
+
+  .tabs {
+    border-top: 1px solid #565F70;
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 12px;
+  }
+
+  .chat {
+    display: flex;
+    justify-content: flex-end;
+    margin: 3px;
+  }
+
+  .chat .buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3px 0;
+  }
+
+  .normal {
+    border: 1px solid #93989C;
+    background: #FBFBFB;
+    box-shadow: -4px -4px 4px #C0C9E0 inset;
+    width: 58px;
+    height: 37px;
+    border-radius: 5px;
+    font-family: Tahoma;
+    font-weight: bold;
+    font-size: 0.6875em;
+    color: #969C9A;
+  }
+
+  .normal em {
+    text-decoration: underline;
+    font-style: normal;
+  }
+
+  .normal.small {
+    height: 25px;
+  }
+}
+
+.simple-button {
+  >.container {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    height: 100%;
+  }
+
+  .container img {
+    height: 16px;
+  }
+
+  .container span {
+    font-family: Verdana;
+    font-size: 0.625em;
+    color: #444;
+    display: inline-block;
+    padding-left: 3px;
+  }
+
+  .container button {
+    border: 0;
+    background: transparent;
+    transform: scale(0.6);
+    padding: 0;
+  }
+}
+
+.tab-button {
+  >.container {
+    min-width: 25px;
+    height: 18px;
+    border: 1px solid #ABB0C6;
+    border-top: 0;
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    justify-content: center;
+    background: #EDF2F8;
+  }
+
+  :host([focus]) .container {
+    background: #fff;
+    border-bottom: 3px solid #E2C47B;
+    border-top: 0;
+    transform: translateY(-1px);
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}

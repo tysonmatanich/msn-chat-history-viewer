@@ -1,0 +1,165 @@
+.msn_log {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+
+  display: flex;
+  flex-direction: column;
+
+  .msn_message {
+    font-size: 1.4em;
+
+    .thread-format & {
+      border-radius: 8px;
+      max-width: 64%;
+      margin-bottom: 10px;
+
+      &.is-self-true {
+        align-self: flex-end;
+        background-color: #d7e4f4;
+      }
+
+      &.is-self-false {
+        align-self: flex-start;
+        background-color: #ededed;
+      }
+    }
+
+    .msn_message_header {
+      color: #8d8a8a;
+      opacity: 0.9;
+      /* margin: 0.4em 0; */
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+
+      .thread-format & {
+        display: none;
+      }
+
+      .thread-format.show-header & {
+        display: flex;
+      }
+    }
+
+    .msn_user {
+      flex-grow: 1;
+      display: flex;
+      gap: 0.25em;
+
+      .logon-name {
+        display: none;
+
+        &::before {
+          content: "<";
+        }
+
+        &::after {
+          content: ">";
+        }
+
+        .show-logon-name & {
+          display: block;
+        }
+      }
+
+      .custom-name {
+        display: none;
+
+        &::after {
+          content: ":";
+        }
+
+        .show-custom-names & {
+          display: block;
+        }
+      }
+
+      &:after {
+        content: " says:";
+      }
+    }
+
+    .msn_date_time {
+      display: flex;
+      gap: 3px;
+      font-size: 0.8em;
+
+      .msn_date,
+      .msn_time {
+        display: none;
+      }
+
+      .show-date & {
+        .msn_date {
+          display: block;
+        }
+      }
+
+      .show-time & {
+        .msn_time {
+          display: block;
+        }
+      }
+
+      .msn_date+div {
+        display: none;
+      }
+
+      .show-date.show-time & {
+        .msn_date+div {
+          display: block;
+        }
+      }
+    }
+
+    .msn_message_text {
+      margin: 0 0 0.2em 1em;
+      line-height: 21px;
+
+      .thread-format & {
+        margin: 5px 10px;
+      }
+    }
+  }
+
+  .msn_invitation {
+    font-size: 1.2em;
+    border: 1px solid #8d8a8a;
+    border-left: 0;
+    border-right: 0;
+    margin: 13px 0;
+    padding: 7px 0;
+
+    .msn_message_text {
+      line-height: 21px;
+    }
+  }
+}
+
+.emoticon {
+  & span {
+    display: none;
+  }
+
+  & img {
+    vertical-align: middle;
+    display: inline-block;
+    margin-top: -4px;
+    width: 19px;
+    height: 19px;
+  }
+
+  .hide-emoticons & {
+    & span {
+      display: inline;
+    }
+
+    & img {
+      display: none;
+    }
+  }
+}
