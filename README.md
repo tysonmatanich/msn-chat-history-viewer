@@ -2,10 +2,13 @@
 
 View your MSN Messenger chat history XML files in browser with early 2000's style formatting.
 
+[Try it out now](https://tysonmatanich.github.io/msn-chat-history-viewer/viewer.html)
+
 ## Features
 
 - Simply open the viewer.html file and drag on a Messenger XML file over to view it formatted similar to how it looked back in the early 2000's
 - File can run directly off the file system and doesn't require a web server
+- All data stays private in browser with no uploading to a server
 
 ### Options
 
@@ -20,6 +23,7 @@ View your MSN Messenger chat history XML files in browser with early 2000's styl
 ## Known Issues
 
 - Some chat history XML files are missing @LogonName which custom names relies on to determine who sent the message
+- Testing for this tool was done in Chrome on Windows. Might not work correctly in other browsers. Feel free to open a pull request to help add support.
 
 ## Sources
 
