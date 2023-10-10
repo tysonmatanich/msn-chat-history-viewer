@@ -48,12 +48,27 @@ function runXslt(xmlDoc) {
 const emoticonsUrlPrefix = "emoticons/";
 let emoticons = [
   {
-    img: "74_74.gif",
-    key: "Party",
-    text: "<:o)",
+    img: "brb.gif",
+    key: "Be Right Back",
+    text: "(brb)",
   },
   {
-    img: "rainbow.png",
+    img: "sunshine.webp",
+    key: "Sunshine",
+    text: "(#)",
+  },
+  {
+    img: "74_74.gif",
+    key: "Party",
+    text: "&lt;:o)",
+  },
+  {
+    img: "dog.gif",
+    key: "Dog face",
+    text: "(&amp;)",
+  },
+  {
+    img: "rainbow.webp",
     key: "Rainbow",
     text: "(R)",
   },
@@ -278,11 +293,6 @@ let emoticons = [
     text: "(@)",
   },
   {
-    img: "dog.gif",
-    key: "Dog face",
-    text: "(&amp;)",
-  },
-  {
     img: "phone.gif",
     key: "Telephone receiver",
     text: "(T)",
@@ -422,17 +432,27 @@ function showChat(fragment) {
   updateCustomNamesTo();
 }
 
-function processEmoticons(outputNode) {
-  outputNode.forEach((message) => {
-    let messageText = message.innerHTML;
+const emoticonMarkupStart = '<span class="emoticon"><span data-text="';
+const emoticonMarkupStartRegex = new RegExp(escapeRegExp(emoticonMarkupStart));
+function processEmoticons(elements) {
+  elements.forEach((element) => {
+    let innerHTML = element.innerHTML;
     emoticons.forEach((emoticon) => {
       emoticon.regex.forEach((regex) => {
-        messageText = messageText.replaceAll(regex, (match, offset, string) => {
-          return `<span class="emoticon"><span data-text="${match}"></span><img src="${emoticonsUrlPrefix}${emoticon.img}" alt=""/></span>`;
+        innerHTML = innerHTML.replaceAll(regex, (match, offset, string) => {
+          if (
+            !emoticonMarkupStartRegex.test(
+              string.substring(offset - emoticonMarkupStart.length - 10, offset)
+            )
+          ) {
+            return `${emoticonMarkupStart}${match}"></span><img src="${emoticonsUrlPrefix}${emoticon.img}" alt=""/></span>`;
+          } else {
+            return match;
+          }
         });
       });
     });
-    message.innerHTML = messageText;
+    element.innerHTML = innerHTML;
   });
 }
 
