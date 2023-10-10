@@ -440,7 +440,7 @@ function showChat(fragment) {
   updateCustomNamesTo();
 }
 
-const emoticonMarkupStart = '<span class="emoticon"><span data-text="';
+const emoticonMarkupStart = '<span class="emoticon"><span>';
 const emoticonMarkupStartRegex = new RegExp(escapeRegExp(emoticonMarkupStart));
 function processEmoticons(elements) {
   elements.forEach((element) => {
@@ -453,7 +453,7 @@ function processEmoticons(elements) {
               string.substring(offset - emoticonMarkupStart.length - 10, offset)
             )
           ) {
-            return `${emoticonMarkupStart}${match}"></span><img src="${emoticonsUrlPrefix}${emoticon.img}" alt=""/></span>`;
+            return `${emoticonMarkupStart}${match}</span><img src="${emoticonsUrlPrefix}${emoticon.img}" alt=""/></span>`;
           } else {
             return match;
           }
