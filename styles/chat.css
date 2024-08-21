@@ -12,18 +12,23 @@
     font-size: 1.4em;
 
     .thread-format & {
-      border-radius: 8px;
       max-width: 64%;
       margin-bottom: 10px;
 
-      &.is-self-true {
+      &.is-self-true  {
         align-self: flex-end;
-        background-color: #d7e4f4;
+
+        .msn_message_text {
+          background-color: #d7e4f4;
+        }
       }
 
       &.is-self-false {
         align-self: flex-start;
-        background-color: #ededed;
+
+        .msn_message_text {
+          background-color: #ededed;
+        }
       }
     }
 
@@ -34,14 +39,10 @@
       display: flex;
       flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
+      gap: 3px 10px;
 
-      .thread-format & {
+      .thread-format.hide-header & {
         display: none;
-      }
-
-      .thread-format.show-header & {
-        display: flex;
       }
     }
 
@@ -49,9 +50,12 @@
       flex-grow: 1;
       display: flex;
       gap: 0.25em;
+      flex-wrap: wrap;
 
       .logon-name {
         display: none;
+        font-size: .85em;
+        line-height: normal;
 
         &::before {
           content: "<";
@@ -62,19 +66,25 @@
         }
 
         .show-logon-name & {
-          display: block;
+          display: inline;
         }
       }
 
       .custom-name {
         display: none;
+        font-size: .85em;
+        line-height: normal;
+
+        &::before {
+          content: "<";
+        }
 
         &::after {
-          content: ":";
+          content: ">";
         }
 
         .show-custom-names & {
-          display: block;
+          display: inline;
         }
       }
 
@@ -87,6 +97,12 @@
       display: flex;
       gap: 3px;
       font-size: 0.8em;
+      flex-grow: 1;
+      justify-content: flex-end;
+
+      .thread-format & {
+        justify-content: flex-start;
+      }
 
       .msn_date,
       .msn_time {
@@ -117,11 +133,13 @@
     }
 
     .msn_message_text {
-      margin: 0 0 0.2em 1em;
+      margin: 0.2em 1em;
       line-height: 21px;
 
       .thread-format & {
-        margin: 5px 10px;
+        margin: 0.2em 0;
+        padding: 0.2em 1em;
+        border-radius: 8px;
       }
     }
   }
@@ -136,6 +154,22 @@
 
     .msn_message_text {
       line-height: 21px;
+    }
+  }
+
+  .date-diff {
+    font-size: 1.2em;
+    border: 1px solid #8d8a8a;
+    border-left: 0;
+    border-right: 0;
+    margin: 13px 0;
+    padding: 7px 0;
+    line-height: 21px;
+    text-align: center;
+    color: #8d8a8a;
+
+    &::before {
+      content: "Time elapsed: ";
     }
   }
 }

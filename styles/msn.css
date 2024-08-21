@@ -1,6 +1,6 @@
 :root {
-  --width: 475px;
-  --height: 400px;
+  --width: 300px;
+  --height: 268px;
   --border-radius: 6px;
   --toolbar-height: 60px;
 }
@@ -16,27 +16,29 @@
 
 .msn-messenger-window {
   width: 100%;
+  height: 100%;
 
   >.container {
     min-width: var(--width);
-    max-width: 1200px;
-    margin: 0 auto;
-
     min-height: var(--height);
-    height: 80vh;
+    height: 100%;
     background: #D7E4F5 url('../ui/main-background.png') no-repeat;
     background-position: right bottom;
     display: grid;
-    grid-template-rows: var(--toolbar-height) 1fr 140px 2px;
+    grid-template-rows: var(--toolbar-height) 1fr 0 2px;
+
+    @media only screen and (min-height: 600px) {
+      grid-template-rows: var(--toolbar-height) 1fr 140px 2px;
+    }
+
     border-radius: var(--border-radius);
     overflow: hidden;
-    box-shadow:
-      2px 2px 5px #0009,
-      5px 5px 10px #000c;
     position: relative;
     transform: translate(var(--x, 0), var(--y, 0));
 
     font-size: 1em;
+    padding-bottom: 12px;
+    box-sizing: border-box;
 
     >.border-window {
       position: absolute;
@@ -59,30 +61,75 @@
 }
 
 .msn-messenger-toolbar {
+  overflow: hidden;
+
   >.container {
     width: 100%;
     height: 100%;
     border-radius: var(--border-radius) var(--border-radius) 0 0;
     display: grid;
-    grid-template-columns: minmax(310px, 840px) 1.4fr;
+    grid-template-columns: minmax(196px, 840px) 1.4fr;
     position: relative;
 
     .toolbar-container {
-      --min-toolbar-item-width: 56px;
+      --min-toolbar-item-width: 51px;
       --max-toolbar-item-width: 70px;
-
       display: grid;
-      /* grid-template-columns: 40px 56px 44px 40px 54px 44px; */
-      grid-template-columns: minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width)) minmax(0, 2fr);
+
+      grid-template-columns:
+        minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+        minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+        minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+        0
+        0
+        0
+        minmax(0, 2fr);
+      > div:nth-child(n+5) { display: none; }
+
+      @media only screen and (min-width: 360px) {
+        grid-template-columns:
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          0
+          0
+          minmax(0, 2fr);
+        > div:nth-child(n) { display: block; }
+        > div:nth-child(n+6) { display: none; }
+      }
+
+      @media only screen and (min-width: 420px) {
+        grid-template-columns:
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          0
+          minmax(0, 2fr);
+        > div:nth-child(n) { display: block; }
+        > div:nth-child(n+7) { display: none; }
+      }
+
+      @media only screen and (min-width: 470px) {
+        grid-template-columns:
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(var(--min-toolbar-item-width), var(--max-toolbar-item-width))
+          minmax(0, 2fr);
+        > div:nth-child(n) { display: block; }
+      }
+      
+
       place-items: center;
       justify-content: flex-end;
       align-items: center;
       background: url('../ui/toolbar-background.png') repeat;
       background-size: contain;
-
-      &:after {
-        content: "";
-      }
     }
 
     .toolbar-small-container {
@@ -150,6 +197,9 @@
 }
 
 .image-button {
+  margin-right: -10px;
+  position: relative;
+
   >.container {
     display: inline-flex;
     flex-direction: column;
@@ -177,10 +227,14 @@
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 132px;
+    grid-template-columns: 1fr 0;
 
     padding: 4px 0 0 9px;
     box-sizing: border-box;
+
+    @media only screen and (min-width: 470px) {
+      grid-template-columns: 1fr 132px;
+    }
   }
 }
 
@@ -209,7 +263,8 @@
     border-radius: 8px 8px 0 0;
     background: #EEF0FD;
     display: flex;
-    align-items: center;
+    align-items: baseline;
+    padding-top: 7px;
     padding-left: 6px;
     border-bottom: 1px solid #586170;
     font-size: 1.2em;
@@ -239,6 +294,12 @@
 }
 
 .msn-messenger-avatar {
+  display: none;
+
+  @media only screen and (min-width: 470px) {
+    display: block;
+  }
+
   >.container {
     width: 114px;
     height: 114px;
@@ -275,13 +336,23 @@
 }
 
 .msn-messenger-local-user {
+  display: none;
+
+  @media only screen and (min-height: 600px) {
+    display: block;
+  }
+
   >.container {
     width: 100%;
     height: 100%;
     display: grid;
-    grid-template-columns: 1fr 132px;
+    grid-template-columns: 1fr 0;
     padding: 4px 0 0 9px;
     box-sizing: border-box;
+
+    @media only screen and (min-width: 470px) {
+      grid-template-columns: 1fr 132px;
+    }
   }
 }
 

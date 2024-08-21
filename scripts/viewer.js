@@ -9,31 +9,38 @@ function dropHandler(e) {
     [...e.dataTransfer.items].forEach((item, i) => {
       // If dropped items aren't files, reject them
       if (item.kind === "file") {
-        const file = item.getAsFile();
-        const fileName = file.name;
-        const fileReader = new FileReader();
-
-        fileReader.onload = function (event) {
-          // Get file contents as string
-          const xmlStr = event.target.result;
-
-          // Parse as XML
-          const domParser = new DOMParser();
-          const xmlDoc = domParser.parseFromString(xmlStr, "text/xml");
-
-          const errorNode = xmlDoc.querySelector("parsererror");
-          if (errorNode) {
-            console.log("Error parsing document :(");
-          } else {
-            //console.log(xmlDoc);
-            runXslt(xmlDoc);
-          }
-        };
-
-        fileReader.readAsText(file);
+        readFile(item.getAsFile());
       }
     });
   }
+}
+
+function openFile(e) {
+  readFile(this.files[0]);
+}
+
+function readFile(file) {
+    const fileName = file.name;
+    const fileReader = new FileReader();
+
+    fileReader.onload = function (event) {
+      // Get file contents as string
+      const xmlStr = event.target.result;
+
+      // Parse as XML
+      const domParser = new DOMParser();
+      const xmlDoc = domParser.parseFromString(xmlStr, "text/xml");
+
+      const errorNode = xmlDoc.querySelector("parsererror");
+      if (errorNode) {
+        console.log("Error parsing document :(");
+      } else {
+        //console.log(xmlDoc);
+        runXslt(xmlDoc);
+      }
+    };
+
+    fileReader.readAsText(file);
 }
 
 function runXslt(xmlDoc) {
@@ -430,6 +437,8 @@ function showChat(fragment) {
 
   updateCustomNamesFrom();
   updateCustomNamesTo();
+
+  processDateTime();
 }
 
 const emoticonMarkupStart = '<span class="emoticon"><span>';
@@ -480,14 +489,64 @@ function updateCustomNamesTo() {
   });
 }
 
+function roundNumber(number) {
+  return Math.round(number * 10) / 10;
+}
+
+function pluralString(string, number) {
+  return `${number} ${string}${number > 1 ? 's' : ''}`;
+}
+
+function processDateTime() {
+  let lastDate = null;
+  document
+    .querySelectorAll(".msn_message .msn_date_time")
+    .forEach((element) => {
+      const currentDate = Date.parse(element.getAttribute("data-date") + " " + element.getAttribute("data-time"));
+      if (lastDate != null) {
+        let totalMs = currentDate - lastDate; // milliseconds between dates
+        let totalDays = roundNumber(totalMs / 86400000); // days
+        let totalHours = roundNumber(totalMs / 3600000); // hours
+        let totalMins = roundNumber(totalMs / 60000); // minutes
+
+        if (totalMins > 30) { // TODO: Could make configurable
+          let div = document.createElement("div");
+          div.classList.add("date-diff");
+
+          if (totalDays >= 1) {
+            div.innerText = pluralString('day', totalDays);
+          } else if (totalHours >= 1) {
+              div.innerText = pluralString('hour', totalHours);
+          } else {
+            div.innerText = pluralString('minute', totalMins);
+          }
+          element.parentElement.parentElement.before(div);
+        }
+      }
+      lastDate = currentDate;
+    });
+}
+
 addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("msn-app");
+  app.addEventListener("dragenter", preventOpen);
   app.addEventListener("dragover", preventOpen);
   app.addEventListener("drop", dropHandler);
 
-  document.getElementById("hideHeaderToggle").addEventListener("change", () => {
-    document.body.classList.toggle("show-header");
+  document.getElementById("drop_zone").addEventListener("click", () => {
+    document.getElementById("xmlUpload").click();
   });
+  document.getElementById("openFileUpload").addEventListener("click", (e) => {
+    e.stopPropagation();
+    document.getElementById("xmlUpload").click();
+  });
+
+  document.getElementById("xmlUpload").addEventListener("change", openFile);
+
+  document.getElementById("optionsToggle").addEventListener("click", () => {
+    document.body.classList.toggle("show-options");
+  });
+
   document
     .getElementById("threadFormatToggle")
     .addEventListener("change", () => {

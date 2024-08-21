@@ -102,6 +102,27 @@
       <User LogonName="user2@hotmail.com" FriendlyName="User 2"/>
     </To>
     <Text Style="font-family:Microsoft Sans Serif; color:#000080; ">
+      (brb)
+      (#)
+      &lt;:o)
+      (&amp;)
+      (R)
+      :-)
+      :)
+      :-D
+      :d
+      :-O
+      :o Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus massa nunc, euismod et tellus vel, lacinia accumsan justo. Vivamus et tempor metus, a malesuada arcu. Vestibulum sollicitudin purus ac sodales fringilla. Cras ultricies neque auctor tempus ultricies.
+    </Text>
+  </Message>
+  <Message Date="10/9/2023" Time="3:30:45 PM" DateTime="2023-10-09T22:30:45.000Z" SessionID="2">
+    <From>
+      <User LogonName="user1@hotmail.com" FriendlyName="User 1 :D"/>
+    </From>
+    <To>
+      <User LogonName="user2@hotmail.com" FriendlyName="User 2"/>
+    </To>
+    <Text Style="font-family:Microsoft Sans Serif; color:#000080; ">
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus massa nunc, euismod et tellus vel, lacinia accumsan justo. Vivamus et tempor metus, a malesuada arcu. Vestibulum sollicitudin purus ac sodales fringilla. Cras ultricies neque auctor tempus ultricies.
     </Text>
   </Message>

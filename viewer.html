@@ -14,103 +14,95 @@
   </head>
   <body>
     <header>
-      <div class="header-left">
-        <div>
-          <label class="toggle">
-            <span class="toggle-label"
-              ><span data-text="Thread Format"></span
-            ></span>
-            <input
-              id="threadFormatToggle"
-              class="toggle-checkbox"
-              type="checkbox"
-            />
-            <div class="toggle-switch"></div>
-          </label>
-        </div>
-
-        <div class="hide-header-toggle">
-          <label class="toggle">
-            <span class="toggle-label"
-              ><span data-text="Show Info"></span
-            ></span>
-            <input
-              id="hideHeaderToggle"
-              class="toggle-checkbox"
-              type="checkbox"
-            />
-            <div class="toggle-switch"></div>
-          </label>
-        </div>
-
-        <div class="show-logon-name">
-          <label class="toggle">
-            <span class="toggle-label"
-              ><span data-text="Logon Name"></span
-            ></span>
-            <input
-              id="logonNameToggle"
-              class="toggle-checkbox"
-              type="checkbox"
-            />
-            <div class="toggle-switch"></div>
-          </label>
-        </div>
-
-        <div id="customName">
-          <label class="toggle">
-            <span class="toggle-label"
-              ><span data-text="Custom Names"></span
-            ></span>
-            <input class="toggle-checkbox" type="checkbox" />
-            <div class="toggle-switch"></div>
-          </label>
-          <div>
+      <p>By <a target="_blank" href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
+      <button id="optionsToggle"><span data-text="options"></span></button>
+      <div class="options-menu">
+        <div class="container">
+          <div class="menu-body">
+            
             <div>
-              <label for="from"><span data-text="From"></span></label>
-              <input type="text" id="from" name="from" value="From" />
+              <label class="toggle">
+                <span class="toggle-label"><span data-text="Emoticons"></span></span>
+                <input
+                  id="emoticonsToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                  checked
+                />
+                <div class="toggle-switch"></div>
+              </label>
             </div>
+
+            <div class="show-logon-name">
+              <label class="toggle">
+                <span class="toggle-label"
+                  ><span data-text="Show Logon Name"></span
+                ></span>
+                <input
+                  id="logonNameToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                />
+                <div class="toggle-switch"></div>
+              </label>
+            </div>
+
+            <div id="customName">
+              <label class="toggle">
+                <span class="toggle-label"
+                  ><span data-text="Override Names"></span
+                ></span>
+                <input class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+              </label>
+              <div>
+                <div>
+                  <label for="from"><span data-text="From"></span></label>
+                  <input type="text" id="from" name="from" value="From" />
+                </div>
+                <div>
+                  <label for="to"><span data-text="To"></span></label>
+                  <input type="text" id="to" name="to" value="To" />
+                </div>
+              </div>
+            </div>
+
+            <div class="date-toggle">
+              <label class="toggle">
+                <span class="toggle-label"><span data-text="Date"></span></span>
+                <input id="dateToggle" class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+              </label>
+            </div>
+
+            <div class="time-toggle">
+              <label class="toggle">
+                <span class="toggle-label"><span data-text="Time"></span></span>
+                <input id="timeToggle" class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+              </label>
+            </div>
+
             <div>
-              <label for="to"><span data-text="To"></span></label>
-              <input type="text" id="to" name="to" value="To" />
+              <label class="toggle">
+                <span class="toggle-label"
+                  ><span data-text="Threaded"></span
+                ></span>
+                <input
+                  id="threadFormatToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                />
+                <div class="toggle-switch"></div>
+              </label>
             </div>
           </div>
-        </div>
+          <div class="menu-footer">
+            <button id="reset">
+              <span data-text="Clear Chat…"></span>
+            </button>
+          </div>
       </div>
-
-      <div>
-        <label class="toggle">
-          <span class="toggle-label"><span data-text="Emoticons"></span></span>
-          <input
-            id="emoticonsToggle"
-            class="toggle-checkbox"
-            type="checkbox"
-            checked
-          />
-          <div class="toggle-switch"></div>
-        </label>
-      </div>
-
-      <div class="date-toggle">
-        <label class="toggle">
-          <span class="toggle-label"><span data-text="Date"></span></span>
-          <input id="dateToggle" class="toggle-checkbox" type="checkbox" />
-          <div class="toggle-switch"></div>
-        </label>
-      </div>
-
-      <div class="time-toggle">
-        <label class="toggle">
-          <span class="toggle-label"><span data-text="Time"></span></span>
-          <input id="timeToggle" class="toggle-checkbox" type="checkbox" />
-          <div class="toggle-switch"></div>
-        </label>
-      </div>
-
-      <div>
-        <button id="reset">
-          <span data-text="Clear"></span>
-        </button>
       </div>
     </header>
 
@@ -209,7 +201,8 @@
                   <div class="history">
                     <div class="msn_log">
                       <p>
-                        Drag chat history <strong>.XML</strong> file here to
+                        <input type="file" id="xmlUpload" accept="text/xml, .xml" style="display:none" />
+                        <button id="openFileUpload">Upload</button> or drag chat history <strong>.XML</strong> file here to
                         view it.
                       </p>
                     </div>
@@ -353,15 +346,15 @@
         <div class="msn_message is-self-{$LogonName != From/User/@LogonName}">
           <div class="msn_message_header">
             <div class="msn_user">
-              <div class="custom-name is-from-{$LogonName != From/User/@LogonName}"></div>
               <div class="friendly-name">
                 <xsl:value-of select="From/User/@FriendlyName" />
               </div>
+              <div class="custom-name is-from-{$LogonName != From/User/@LogonName}"></div>
               <div class="logon-name">
                 <xsl:value-of select="From/User/@LogonName" />
               </div>
             </div>
-            <div class="msn_date_time">
+            <div class="msn_date_time" data-date="{@Date}" data-time="{concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)}">
               <div class="msn_date"><xsl:value-of select="@Date" /></div>
               <div><span data-text="@"></span></div>
               <div class="msn_time">
@@ -388,9 +381,5 @@
         </div>
       </xsl:template>
     </xsl:stylesheet>
-
-    <footer>
-      <p>By <a href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
-    </footer>
   </body>
 </html>
