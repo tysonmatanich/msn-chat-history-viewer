@@ -1,10 +1,10 @@
-function preventOpen(e) {
+function filePreventOpen(e) {
   // Prevent default behavior (prevent file from being opened)
   e.preventDefault();
 }
 
-function dropHandler(e) {
-  preventOpen(e);
+function fileDropHandler(e) {
+  filePreventOpen(e);
   if (e.dataTransfer.items) {
     [...e.dataTransfer.items].forEach((item, i) => {
       // If dropped items aren't files, reject them
@@ -15,14 +15,12 @@ function dropHandler(e) {
   }
 }
 
-function openFile(e) {
+function fileChangeHandler(e) {
   readFile(this.files[0]);
 }
 
 function readFile(file) {
-    const fileName = file.name;
     const fileReader = new FileReader();
-
     fileReader.onload = function (event) {
       // Get file contents as string
       const xmlStr = event.target.result;
@@ -33,23 +31,24 @@ function readFile(file) {
 
       const errorNode = xmlDoc.querySelector("parsererror");
       if (errorNode) {
-        console.log("Error parsing document :(");
+        console.log("Error parsing document :(", errorNode);
       } else {
-        //console.log(xmlDoc);
         runXslt(xmlDoc);
       }
     };
-
     fileReader.readAsText(file);
 }
 
 function runXslt(xmlDoc) {
   const xsltProcessor = new XSLTProcessor();
   xsltProcessor.importStylesheet(document.getElementById("xslt"));
-
   const fragment = xsltProcessor.transformToFragment(xmlDoc, document);
-
   showChat(fragment);
+}
+
+function escapeRegExp(string) {
+  // From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 }
 
 const emoticonsUrlPrefix = "emoticons/";
@@ -426,19 +425,45 @@ emoticons.forEach((emoticon) => {
   }
 });
 
+function fromNameChangeHandler() {
+  updateCustomNameFrom(document);
+}
+
+function toNameChangeHandler() {
+  updateCustomNameTo(document);
+}
+
 function showChat(fragment) {
+  document.getElementById("from").removeEventListener("change", fromNameChangeHandler);
+  document.getElementById("to").removeEventListener("change", toNameChangeHandler);
+
   const outputNode = document.getElementById("output");
   outputNode.innerHTML = "";
+
+  processEmoticons(fragment.querySelectorAll(".msn_message_text"));
+  processEmoticons(fragment.querySelectorAll(".friendly-name"));
+
+  // Update custom names
+  const logElement = fragment.querySelectorAll(".msn_log")[0];
+  if (logElement.getAttribute("data-to") != '') {
+    document.getElementById("to").value = logElement.getAttribute("data-to");
+  } else {
+    document.getElementById("to").value = "To";
+    updateCustomNameTo(fragment);
+  }
+  if (logElement.getAttribute("data-from") != '') {
+    document.getElementById("from").value = logElement.getAttribute("data-from");
+  } else {
+    document.getElementById("from").value = "From";
+    updateCustomNameFrom(fragment);
+  }
+
+  processDateTime(fragment);
+
   outputNode.appendChild(fragment);
   document.body.classList.add("showChat");
-
-  processEmoticons(outputNode.querySelectorAll(".msn_message_text"));
-  processEmoticons(outputNode.querySelectorAll(".friendly-name"));
-
-  updateCustomNamesFrom();
-  updateCustomNamesTo();
-
-  processDateTime();
+  document.getElementById("from").addEventListener("change", fromNameChangeHandler);
+  document.getElementById("to").addEventListener("change", toNameChangeHandler);
 }
 
 const emoticonMarkupStart = '<span class="emoticon"><span>';
@@ -469,56 +494,54 @@ function reset(e) {
   const outputNode = document.getElementById("output");
   outputNode.innerHTML = "";
   document.body.classList.remove("showChat");
-  //TODO: Reset any error messages
 }
 
-function escapeRegExp(string) {
-  // From: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#escaping
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
-}
-
-function updateCustomNamesFrom() {
-  document.querySelectorAll(".custom-name.is-from-true").forEach((element) => {
-    element.innerHTML = document.getElementById("from").value;
+function updateCustomName(name, fragment) {
+  const value = document.getElementById(name).value;
+  fragment.querySelectorAll(`.custom-name.is-${name}-true`).forEach((element) => {
+    element.innerHTML = value;
   });
 }
 
-function updateCustomNamesTo() {
-  document.querySelectorAll(".custom-name.is-from-false").forEach((element) => {
-    element.innerHTML = document.getElementById("to").value;
-  });
+function updateCustomNameFrom(fragment) {
+  updateCustomName("from", fragment);
 }
 
-function roundNumber(number) {
-  return Math.round(number * 10) / 10;
+function updateCustomNameTo(fragment) {
+  updateCustomName("to", fragment);
 }
 
-function pluralString(string, number) {
+function roundNumber(number, decimalPlaces) {
+  const factor = Math.pow(10, decimalPlaces);
+  return Math.round(number * factor) / factor;
+}
+
+function basicPluralString(string, number) {
   return `${number} ${string}${number > 1 ? 's' : ''}`;
 }
 
-function processDateTime() {
+function processDateTime(fragment) {
   let lastDate = null;
-  document
+  fragment
     .querySelectorAll(".msn_message .msn_date_time")
     .forEach((element) => {
       const currentDate = Date.parse(element.getAttribute("data-date") + " " + element.getAttribute("data-time"));
       if (lastDate != null) {
         let totalMs = currentDate - lastDate; // milliseconds between dates
-        let totalDays = roundNumber(totalMs / 86400000); // days
-        let totalHours = roundNumber(totalMs / 3600000); // hours
-        let totalMins = roundNumber(totalMs / 60000); // minutes
+        let totalDays = roundNumber(totalMs / 86400000, 1); // days
+        let totalHours = roundNumber(totalMs / 3600000, 1); // hours
+        let totalMins = roundNumber(totalMs / 60000, 0); // minutes
 
         if (totalMins > 30) { // TODO: Could make configurable
           let div = document.createElement("div");
           div.classList.add("date-diff");
 
           if (totalDays >= 1) {
-            div.innerText = pluralString('day', totalDays);
+            div.innerText = basicPluralString('day', totalDays);
           } else if (totalHours >= 1) {
-              div.innerText = pluralString('hour', totalHours);
+              div.innerText = basicPluralString('hour', totalHours);
           } else {
-            div.innerText = pluralString('minute', totalMins);
+            div.innerText = basicPluralString('minute', totalMins);
           }
           element.parentElement.parentElement.before(div);
         }
@@ -527,24 +550,64 @@ function processDateTime() {
     });
 }
 
+function bodyClick(e) {
+  const optionsMenu = document.getElementsByClassName("options-menu")[0];
+  if (optionsMenu != e.target && !optionsMenu.contains(e.target)) {
+    document.body.removeEventListener("click", bodyClick);
+    document.body.classList.remove("show-options");
+  }
+}
+
 addEventListener("DOMContentLoaded", () => {
   const app = document.getElementById("msn-app");
-  app.addEventListener("dragenter", preventOpen);
-  app.addEventListener("dragover", preventOpen);
-  app.addEventListener("drop", dropHandler);
+  app.addEventListener("dragenter", filePreventOpen);
+  app.addEventListener("dragover", filePreventOpen);
+  app.addEventListener("drop", fileDropHandler);
 
   document.getElementById("drop_zone").addEventListener("click", () => {
-    document.getElementById("xmlUpload").click();
+    document.getElementById("fileXmlUpload").click();
   });
-  document.getElementById("openFileUpload").addEventListener("click", (e) => {
+  document.getElementById("openFileUploadButton").addEventListener("click", (e) => {
     e.stopPropagation();
-    document.getElementById("xmlUpload").click();
+    document.getElementById("fileXmlUpload").click();
+  });
+  document.getElementById("fileXmlUpload").addEventListener("change", fileChangeHandler);
+
+  // Options Toggles
+  document.getElementById("optionsToggle").addEventListener("click", (e) => {
+    if (document.body.classList.contains("show-options")) {
+      document.body.removeEventListener("click", bodyClick);
+      document.body.classList.remove("show-options");
+      e.stopPropagation();
+    } else {
+      document.body.classList.add("show-options");
+      document.body.addEventListener("click", bodyClick);
+      e.stopPropagation();
+    }
   });
 
-  document.getElementById("xmlUpload").addEventListener("change", openFile);
+  document.getElementById("emoticonsToggle").addEventListener("change", () => {
+    document.body.classList.toggle("hide-emoticons");
+  });
 
-  document.getElementById("optionsToggle").addEventListener("click", () => {
-    document.body.classList.toggle("show-options");
+  document.getElementById("logonNameToggle").addEventListener("change", () => {
+    document.body.classList.toggle("show-logon-name");
+  });
+
+  const customName = document.getElementById("customName");
+  const customNameCheckBox = customName.getElementsByClassName("toggle-checkbox")[0];
+  customNameCheckBox.addEventListener("change", () => {
+    customName.classList.toggle("show");
+    document.body.classList.toggle("show-custom-names");
+  });
+  document.getElementById("from").addEventListener("change", fromNameChangeHandler);
+  document.getElementById("to").addEventListener("change", toNameChangeHandler);
+  
+  document.getElementById("dateToggle").addEventListener("change", () => {
+    document.body.classList.toggle("show-date");
+  });
+  document.getElementById("timeToggle").addEventListener("change", () => {
+    document.body.classList.toggle("show-time");
   });
 
   document
@@ -552,39 +615,6 @@ addEventListener("DOMContentLoaded", () => {
     .addEventListener("change", () => {
       document.body.classList.toggle("thread-format");
     });
-  document.getElementById("logonNameToggle").addEventListener("change", () => {
-    document.body.classList.toggle("show-logon-name");
-  });
-
-  let customNameSet = false;
-  const customName = document.getElementById("customName");
-  const customNameCheckBox =
-    customName.getElementsByClassName("toggle-checkbox")[0];
-  customNameCheckBox.addEventListener("change", () => {
-    customName.classList.toggle("show");
-    document.body.classList.toggle("show-custom-names");
-    if (!customNameSet) {
-      updateCustomNamesFrom();
-      updateCustomNamesTo();
-      customNameSet = true;
-    }
-  });
-  document.getElementById("from").addEventListener("change", () => {
-    updateCustomNamesFrom();
-  });
-  document.getElementById("to").addEventListener("change", () => {
-    updateCustomNamesTo();
-  });
-
-  document.getElementById("emoticonsToggle").addEventListener("change", () => {
-    document.body.classList.toggle("hide-emoticons");
-  });
-  document.getElementById("dateToggle").addEventListener("change", () => {
-    document.body.classList.toggle("show-date");
-  });
-  document.getElementById("timeToggle").addEventListener("change", () => {
-    document.body.classList.toggle("show-time");
-  });
 
   document.getElementById("reset").addEventListener("click", reset);
 });

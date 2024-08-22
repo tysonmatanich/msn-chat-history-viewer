@@ -40,10 +40,6 @@
       flex-wrap: wrap;
       align-items: center;
       gap: 3px 10px;
-
-      .thread-format.hide-header & {
-        display: none;
-      }
     }
 
     .msn_user {
@@ -51,6 +47,12 @@
       display: flex;
       gap: 0.25em;
       flex-wrap: wrap;
+
+      .friendly-name {
+        &:after {
+          content: " says:";
+        }
+      }
 
       .logon-name {
         display: none;
@@ -68,6 +70,11 @@
         .show-logon-name & {
           display: inline;
         }
+
+        .show-logon-name &.has-logon-false {
+          display: inline;
+          color: #db0000;
+        }
       }
 
       .custom-name {
@@ -83,13 +90,15 @@
           content: ">";
         }
 
-        .show-custom-names & {
+        .show-custom-names &.is-from-true,
+        .show-custom-names &.is-to-true {
           display: inline;
         }
-      }
 
-      &:after {
-        content: " says:";
+        .show-custom-names &.is-from-false.is-to-false {
+          display: inline;
+          color: #db0000;
+        }
       }
     }
 
@@ -99,6 +108,10 @@
       font-size: 0.8em;
       flex-grow: 1;
       justify-content: flex-end;
+
+      span {
+        display: contents;
+      }
 
       .thread-format & {
         justify-content: flex-start;
@@ -111,23 +124,23 @@
 
       .show-date & {
         .msn_date {
-          display: block;
+          display: contents;
         }
       }
 
       .show-time & {
         .msn_time {
-          display: block;
+          display: contents;
         }
       }
 
-      .msn_date+div {
+      .msn_date+span {
         display: none;
       }
 
       .show-date.show-time & {
-        .msn_date+div {
-          display: block;
+        .msn_date+span {
+          display: contents;
         }
       }
     }
@@ -155,6 +168,17 @@
     .msn_message_text {
       line-height: 21px;
     }
+  }
+
+  .txt_notes {
+    font-size: 12px;
+    border: 1px solid #8d8a8a;
+    border-left: 0;
+    border-right: 0;
+    margin: 13px 0;
+    line-height: 18px;
+    text-align: left;
+    color: #8d8a8a;
   }
 
   .date-diff {

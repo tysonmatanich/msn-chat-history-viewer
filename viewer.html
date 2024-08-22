@@ -33,10 +33,30 @@
               </label>
             </div>
 
+            <div id="customName">
+              <label class="toggle">
+                <span class="toggle-label"
+                  ><span data-text="Show Names"></span
+                ></span>
+                <input class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+              </label>
+              <div>
+                <div>
+                  <label for="to"><span data-text="To"></span></label>
+                  <input type="text" id="to" name="to" value="To" />
+                </div>
+                <div>
+                  <label for="from"><span data-text="From"></span></label>
+                  <input type="text" id="from" name="from" value="From" />
+                </div>
+              </div>
+            </div>
+
             <div class="show-logon-name">
               <label class="toggle">
                 <span class="toggle-label"
-                  ><span data-text="Show Logon Name"></span
+                  ><span data-text="Show Logon Names"></span
                 ></span>
                 <input
                   id="logonNameToggle"
@@ -45,26 +65,6 @@
                 />
                 <div class="toggle-switch"></div>
               </label>
-            </div>
-
-            <div id="customName">
-              <label class="toggle">
-                <span class="toggle-label"
-                  ><span data-text="Override Names"></span
-                ></span>
-                <input class="toggle-checkbox" type="checkbox" />
-                <div class="toggle-switch"></div>
-              </label>
-              <div>
-                <div>
-                  <label for="from"><span data-text="From"></span></label>
-                  <input type="text" id="from" name="from" value="From" />
-                </div>
-                <div>
-                  <label for="to"><span data-text="To"></span></label>
-                  <input type="text" id="to" name="to" value="To" />
-                </div>
-              </div>
             </div>
 
             <div class="date-toggle">
@@ -201,8 +201,8 @@
                   <div class="history">
                     <div class="msn_log">
                       <p>
-                        <input type="file" id="xmlUpload" accept="text/xml, .xml" style="display:none" />
-                        <button id="openFileUpload">Upload</button> or drag chat history <strong>.XML</strong> file here to
+                        <input type="file" id="fileXmlUpload" accept="text/xml, .xml" style="display:none" />
+                        <button id="openFileUploadButton">Upload</button> or drag chat history <strong>.XML</strong> file here to
                         view it.
                       </p>
                     </div>
@@ -309,62 +309,66 @@
       version="1.0"
       xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     >
+      <xsl:variable name="ToLogonName" select="concat('', //@LogonName)"></xsl:variable>
+      <xsl:variable name="From" select="concat('', //@From)"></xsl:variable>
+      <xsl:variable name="To" select="concat('', //@To)"></xsl:variable>
+
       <xsl:template match="Log">
-        <xsl:param name="LogonName">
-          <xsl:value-of select="@LogonName" />
-        </xsl:param>
         <div class="subject">
           <span data-text="To:"></span>
           <strong class="friendly-name">
-            <xsl:value-of select="Message/From/User[@LogonName=$LogonName]/@FriendlyName" />
+            <xsl:value-of select="Message/From/User[@LogonName=$ToLogonName]/@FriendlyName" />
           </strong>
-          <span class="logon-address"
-            ><span data-text="{@LogonName}"></span>
-          </span>
+          <span class="logon-address"><span data-text="{$ToLogonName}"></span></span>
         </div>
 
         <div class="history">
-          <div class="msn_log">
-            <xsl:apply-templates>
-              <xsl:with-param name="LogonName" select="$LogonName" />
-            </xsl:apply-templates>
+          <div class="msn_log" data-to="{$To}" data-from="{$From}">
+            <xsl:apply-templates />
           </div>
         </div>
       </xsl:template>
 
       <xsl:template match="Message">
-        <xsl:param name="LogonName"></xsl:param>
-        <xsl:variable
-          name="TimeStart"
-          select="substring-before(@Time, ' ')"
-        ></xsl:variable>
-        <xsl:variable
-          name="TimeEnd"
-          select="substring-after(@Time, ' ')"
-        ></xsl:variable>
+        <xsl:variable name="TimeStart" select="substring-before(@Time, ' ')"></xsl:variable>
+        <xsl:variable name="TimeEnd" select="substring-after(@Time, ' ')"></xsl:variable>
 
-        <div class="msn_message is-self-{$LogonName != From/User/@LogonName}">
+        <div class="msn_message is-self-{$ToLogonName = To/User/@LogonName}" data-session="{@SessionID}">
           <div class="msn_message_header">
             <div class="msn_user">
+              <div class="custom-name is-from-{$ToLogonName = To/User/@LogonName} is-to-{$ToLogonName = From/User/@LogonName}">
+                <xsl:choose>
+                  <xsl:when test="$ToLogonName = From/User/@LogonName">
+                    <xsl:value-of select="$To" />
+                  </xsl:when>
+                  <xsl:when test="$ToLogonName = To/User/@LogonName">
+                    <xsl:value-of select="$From" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="'missing logon'" />
+                  </xsl:otherwise>
+                </xsl:choose>
+              </div>
               <div class="friendly-name">
                 <xsl:value-of select="From/User/@FriendlyName" />
               </div>
-              <div class="custom-name is-from-{$LogonName != From/User/@LogonName}"></div>
-              <div class="logon-name">
-                <xsl:value-of select="From/User/@LogonName" />
+              <div class="logon-name has-logon-{From/User/@LogonName != ''}">
+                <xsl:choose>
+                  <xsl:when test="From/User/@LogonName != ''">
+                    <xsl:value-of select="From/User/@LogonName" />
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <xsl:value-of select="'missing logon'" />
+                  </xsl:otherwise>
+                </xsl:choose>
               </div>
             </div>
             <div class="msn_date_time" data-date="{@Date}" data-time="{concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)}">
-              <div class="msn_date"><xsl:value-of select="@Date" /></div>
-              <div><span data-text="@"></span></div>
-              <div class="msn_time">
-                <span
-                  ><xsl:value-of
-                    select="substring($TimeStart, 1, string-length($TimeStart) - 3)"
-                /></span>
-                <span data-text=" "></span>
-                <span><xsl:value-of select="$TimeEnd" /></span>
-              </div>
+              <span class="msn_date"><xsl:value-of select="@Date" /></span>
+              <span> @ </span>
+              <span class="msn_time">
+                <xsl:value-of select="concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)"/>
+              </span>
             </div>
           </div>
           <p class="msn_message_text" style="{Text/@Style}">
@@ -379,6 +383,12 @@
             <xsl:value-of select="Text" />
           </p>
         </div>
+      </xsl:template>
+
+      <xsl:template match="notes">
+        <pre class="txt_notes">
+          <xsl:value-of select="." />
+        </pre>
       </xsl:template>
     </xsl:stylesheet>
   </body>

@@ -17,11 +17,18 @@
 .msn-messenger-window {
   width: 100%;
   height: 100%;
+  
+  overflow: hidden;
+  box-shadow:
+      2px 2px 5px #0009,
+      5px 5px 10px #000c;
+  border-radius: 7px;
 
   >.container {
     min-width: var(--width);
     min-height: var(--height);
     height: 100%;
+    width: 100%;
     background: #D7E4F5 url('../ui/main-background.png') no-repeat;
     background-position: right bottom;
     display: grid;
