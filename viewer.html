@@ -315,11 +315,13 @@
 
       <xsl:template match="Log">
         <div class="subject">
-          <span data-text="To:"></span>
-          <strong class="friendly-name">
-            <xsl:value-of select="Message/From/User[@LogonName=$ToLogonName]/@FriendlyName" />
-          </strong>
-          <span class="logon-address"><span data-text="{$ToLogonName}"></span></span>
+          <div>
+            <span data-text="To:"></span>
+            <strong class="friendly-name">
+              <xsl:value-of select="Message/From/User[@LogonName=$ToLogonName]/@FriendlyName" />
+            </strong>
+            <span class="logon-address"><span data-text="{$ToLogonName}"></span></span>
+          </div>
         </div>
 
         <div class="history">
@@ -336,13 +338,13 @@
         <div class="msn_message is-self-{$ToLogonName = To/User/@LogonName}" data-session="{@SessionID}">
           <div class="msn_message_header">
             <div class="msn_user">
-              <div class="custom-name is-from-{$ToLogonName = To/User/@LogonName} is-to-{$ToLogonName = From/User/@LogonName}">
+              <div class="custom-name is-from-{($ToLogonName != From/User/@LogonName) and (From/User/@LogonName != '')} is-to-{$ToLogonName = From/User/@LogonName}">
                 <xsl:choose>
                   <xsl:when test="$ToLogonName = From/User/@LogonName">
-                    <xsl:value-of select="$To" />
+                    <xsl:value-of select="$To" /><xsl:value-of select="$From" />
                   </xsl:when>
-                  <xsl:when test="$ToLogonName = To/User/@LogonName">
-                    <xsl:value-of select="$From" />
+                  <xsl:when test="($ToLogonName != From/User/@LogonName) and (From/User/@LogonName != '')">
+                      <xsl:value-of select="$From" />
                   </xsl:when>
                   <xsl:otherwise>
                     <xsl:value-of select="'missing logon'" />
@@ -389,6 +391,13 @@
         <pre class="txt_notes">
           <xsl:value-of select="." />
         </pre>
+      </xsl:template>
+
+      <xsl:template match="filenotes">
+        <div class="file_notes">
+          <div><xsl:value-of select="notes" /></div>
+          <div><xsl:value-of select="daterange" /></div>
+        </div>
       </xsl:template>
     </xsl:stylesheet>
   </body>

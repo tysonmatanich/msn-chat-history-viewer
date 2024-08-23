@@ -254,7 +254,7 @@
     display: grid;
     justify-content: center;
     grid-template-columns: 1fr;
-    grid-template-rows: 28px 1fr;
+    grid-template-rows: auto 1fr;
     font-family: Verdana;
     font-size: 0.625em;
     width: 100%;
@@ -270,27 +270,27 @@
     border-radius: 8px 8px 0 0;
     background: #EEF0FD;
     display: flex;
-    align-items: baseline;
-    padding-top: 7px;
-    padding-left: 6px;
+    align-items: center;
+    padding: 6px;
     border-bottom: 1px solid #586170;
     font-size: 1.2em;
-  }
+    line-height: normal;
 
-  .subject strong {
-    padding-left: 3px;
-  }
-
-  .logon-address {
-    &::before {
-      content: "\00a0<";
+    strong {
+      padding-left: 3px;
     }
 
-    &::after {
-      content: ">";
+    .logon-address {
+      &::before {
+        content: "\00a0<";
+      }
+  
+      &::after {
+        content: ">";
+      }
     }
   }
-
+  
   .history {
     background: #fff;
 

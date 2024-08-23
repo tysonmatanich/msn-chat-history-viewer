@@ -60,6 +60,10 @@ body>header {
     background: radial-gradient(circle, #249530 0%, #3c873c 100%) center / cover no-repeat;
     text-shadow: 1px 1px 1px #333;
     border-radius: 10px 0 0 15px;
+
+    &:hover {
+      cursor: pointer;
+    }
   }
 
   .options-menu {
@@ -170,6 +174,10 @@ body>header {
   border: 0;
   color: #fff;
   padding: 0.4em 0.5em;
+
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .toggle {
@@ -319,6 +327,7 @@ body.showChat #output {
   &:hover {
     outline: 2px dashed #0f0000;
     outline-offset: -2px;
+    cursor: pointer;
   }
 
   .msn_log {

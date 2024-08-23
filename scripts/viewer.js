@@ -437,9 +437,11 @@ function showChat(fragment) {
   document.getElementById("from").removeEventListener("change", fromNameChangeHandler);
   document.getElementById("to").removeEventListener("change", toNameChangeHandler);
 
+  // Clear existing output
   const outputNode = document.getElementById("output");
   outputNode.innerHTML = "";
 
+  // Process emoticons
   processEmoticons(fragment.querySelectorAll(".msn_message_text"));
   processEmoticons(fragment.querySelectorAll(".friendly-name"));
 
@@ -458,6 +460,7 @@ function showChat(fragment) {
     updateCustomNameFrom(fragment);
   }
 
+  // Process dates/times
   processDateTime(fragment);
 
   outputNode.appendChild(fragment);
@@ -532,7 +535,8 @@ function processDateTime(fragment) {
         let totalHours = roundNumber(totalMs / 3600000, 1); // hours
         let totalMins = roundNumber(totalMs / 60000, 0); // minutes
 
-        if (totalMins > 30) { // TODO: Could make configurable
+        const elapsedMinsThreshold = 30; // TODO: Could make time configurable
+        if (totalMins > elapsedMinsThreshold) {
           let div = document.createElement("div");
           div.classList.add("date-diff");
 
@@ -543,7 +547,22 @@ function processDateTime(fragment) {
           } else {
             div.innerText = basicPluralString('minute', totalMins);
           }
-          element.parentElement.parentElement.before(div);
+
+          // Insert time elapsed element
+          const maxSiblingAttempts = 3;
+          let siblingAttempts = 1;
+          let previousElementSibling = element.parentElement.parentElement.previousElementSibling;
+          while(siblingAttempts <= maxSiblingAttempts) {
+            if (previousElementSibling.classList.contains("msn_message") || previousElementSibling.classList.contains("msn_invitation")) { //msn_invitation
+              previousElementSibling.after(div);
+              break;
+            }
+            previousElementSibling = previousElementSibling.previousElementSibling;
+            siblingAttempts++;
+          }
+          if (siblingAttempts > maxSiblingAttempts) {
+            element.parentElement.parentElement.before(div);
+          }
         }
       }
       lastDate = currentDate;

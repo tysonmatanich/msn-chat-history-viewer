@@ -170,15 +170,32 @@
     }
   }
 
+  .file_notes {
+    font-size: 12px;
+    background-color: #d7e4f4;
+    margin: 10px -10px;
+    line-height: 18px;
+    text-align: center;
+    color: #000;
+    padding: 2px 10px;
+  }
+
   .txt_notes {
     font-size: 12px;
-    border: 1px solid #8d8a8a;
-    border-left: 0;
-    border-right: 0;
-    margin: 13px 0;
+    background-color: #f7f7f7;
+    margin: 10px 0;
     line-height: 18px;
     text-align: left;
-    color: #8d8a8a;
+    color: #757575;
+    border-radius: 6px;
+    padding: 2px 10px;
+    overflow-x: auto;
+    overflow-y: visible;
+    flex-shrink: 0;
+  }
+
+  .file_notes + .txt_notes {
+    margin-top: 0;
   }
 
   .date-diff {
