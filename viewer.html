@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Messenger Chat History Viewer</title>
     <link rel="icon" type="image/x-icon" href="emoticons/messenger.gif" />
+    <meta name="format-detection" content="telephone=no"> 
+
     <link rel="stylesheet" href="styles/reset.css" />
     <link rel="stylesheet" href="styles/viewer.css" />
     <link rel="stylesheet" href="styles/msn.css" />
@@ -13,9 +15,11 @@
     <script src="scripts/viewer.js"></script>
   </head>
   <body>
-    <header>
-      <p>By <a target="_blank" href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
-      <button id="optionsToggle"><span data-text="options"></span></button>
+    <header class="viewer_header">
+      <div>
+        <p>By <a target="_blank" href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
+        <button id="optionsToggle"><span data-text="options"></span></button>
+      </div>
       <div class="options-menu">
         <div class="container">
           <div class="menu-body">
@@ -105,7 +109,6 @@
       </div>
       </div>
     </header>
-
     <main id="msn-app">
       <div class="msn-messenger-window">
         <div class="container">
@@ -303,102 +306,5 @@
         </div>
       </div>
     </main>
-
-    <xsl:stylesheet
-      id="xslt"
-      version="1.0"
-      xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-    >
-      <xsl:variable name="ToLogonName" select="concat('', //@LogonName)"></xsl:variable>
-      <xsl:variable name="From" select="concat('', //@From)"></xsl:variable>
-      <xsl:variable name="To" select="concat('', //@To)"></xsl:variable>
-
-      <xsl:template match="Log">
-        <div class="subject">
-          <div>
-            <span data-text="To:"></span>
-            <strong class="friendly-name">
-              <xsl:value-of select="Message/From/User[@LogonName=$ToLogonName]/@FriendlyName" />
-            </strong>
-            <span class="logon-address"><span data-text="{$ToLogonName}"></span></span>
-          </div>
-        </div>
-
-        <div class="history">
-          <div class="msn_log" data-to="{$To}" data-from="{$From}">
-            <xsl:apply-templates />
-          </div>
-        </div>
-      </xsl:template>
-
-      <xsl:template match="Message">
-        <xsl:variable name="TimeStart" select="substring-before(@Time, ' ')"></xsl:variable>
-        <xsl:variable name="TimeEnd" select="substring-after(@Time, ' ')"></xsl:variable>
-
-        <div class="msn_message is-self-{$ToLogonName = To/User/@LogonName}" data-session="{@SessionID}">
-          <div class="msn_message_header">
-            <div class="msn_user">
-              <div class="custom-name is-from-{($ToLogonName != From/User/@LogonName) and (From/User/@LogonName != '')} is-to-{$ToLogonName = From/User/@LogonName}">
-                <xsl:choose>
-                  <xsl:when test="$ToLogonName = From/User/@LogonName">
-                    <xsl:value-of select="$To" /><xsl:value-of select="$From" />
-                  </xsl:when>
-                  <xsl:when test="($ToLogonName != From/User/@LogonName) and (From/User/@LogonName != '')">
-                      <xsl:value-of select="$From" />
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:value-of select="'missing logon'" />
-                  </xsl:otherwise>
-                </xsl:choose>
-              </div>
-              <div class="friendly-name">
-                <xsl:value-of select="From/User/@FriendlyName" />
-              </div>
-              <div class="logon-name has-logon-{From/User/@LogonName != ''}">
-                <xsl:choose>
-                  <xsl:when test="From/User/@LogonName != ''">
-                    <xsl:value-of select="From/User/@LogonName" />
-                  </xsl:when>
-                  <xsl:otherwise>
-                    <xsl:value-of select="'missing logon'" />
-                  </xsl:otherwise>
-                </xsl:choose>
-              </div>
-            </div>
-            <div class="msn_date_time" data-date="{@Date}" data-time="{concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)}">
-              <span class="msn_date"><xsl:value-of select="@Date" /></span>
-              <span> @ </span>
-              <span class="msn_time">
-                <xsl:value-of select="concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)"/>
-              </span>
-            </div>
-          </div>
-          <p class="msn_message_text" style="{Text/@Style}">
-            <xsl:value-of select="Text" />
-          </p>
-        </div>
-      </xsl:template>
-
-      <xsl:template match="Invitation | InvitationResponse">
-        <div class="msn_invitation">
-          <p class="msn_message_text" style="{Text/@Style}">
-            <xsl:value-of select="Text" />
-          </p>
-        </div>
-      </xsl:template>
-
-      <xsl:template match="notes">
-        <pre class="txt_notes">
-          <xsl:value-of select="." />
-        </pre>
-      </xsl:template>
-
-      <xsl:template match="filenotes">
-        <div class="file_notes">
-          <div><xsl:value-of select="notes" /></div>
-          <div><xsl:value-of select="daterange" /></div>
-        </div>
-      </xsl:template>
-    </xsl:stylesheet>
   </body>
 </html>

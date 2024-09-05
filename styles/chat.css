@@ -33,9 +33,9 @@
     }
 
     .msn_message_header {
-      color: #8d8a8a;
-      opacity: 0.9;
-      /* margin: 0.4em 0; */
+      /* color: #8d8a8ae6; */
+      color: #989596; /*  0.9 of #8d8a8a */
+      /* opacity: 0.9; TODO: This CSS is VERY SLOW on mobile */
       display: flex;
       flex-wrap: wrap;
       align-items: center;

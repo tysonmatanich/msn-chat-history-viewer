@@ -27,21 +27,23 @@ function readFile(file) {
 
       // Parse as XML
       const domParser = new DOMParser();
-      const xmlDoc = domParser.parseFromString(xmlStr, "text/xml");
+      const xmlDoc = domParser.parseFromString(xmlStr, "application/xml");
 
       const errorNode = xmlDoc.querySelector("parsererror");
       if (errorNode) {
         console.log("Error parsing document :(", errorNode);
       } else {
-        runXslt(xmlDoc);
+        transformXml(xmlDoc, domParser);
       }
     };
     fileReader.readAsText(file);
 }
 
-function runXslt(xmlDoc) {
+async function transformXml(xmlDoc, domParser) {
+  const xslResponse = await fetch("../xslt/to-html.xslt");
+  const xslString = await xslResponse.text();
   const xsltProcessor = new XSLTProcessor();
-  xsltProcessor.importStylesheet(document.getElementById("xslt"));
+  xsltProcessor.importStylesheet(domParser.parseFromString(xslString, "application/xml"));
   const fragment = xsltProcessor.transformToFragment(xmlDoc, document);
   showChat(fragment);
 }
@@ -433,14 +435,7 @@ function toNameChangeHandler() {
   updateCustomNameTo(document);
 }
 
-function showChat(fragment) {
-  document.getElementById("from").removeEventListener("change", fromNameChangeHandler);
-  document.getElementById("to").removeEventListener("change", toNameChangeHandler);
-
-  // Clear existing output
-  const outputNode = document.getElementById("output");
-  outputNode.innerHTML = "";
-
+function processElements(fragment) {
   // Process emoticons
   processEmoticons(fragment.querySelectorAll(".msn_message_text"));
   processEmoticons(fragment.querySelectorAll(".friendly-name"));
@@ -462,8 +457,21 @@ function showChat(fragment) {
 
   // Process dates/times
   processDateTime(fragment);
+}
+
+function showChat(fragment) {
+  document.getElementById("from").removeEventListener("change", fromNameChangeHandler);
+  document.getElementById("to").removeEventListener("change", toNameChangeHandler);
+
+  // Clear existing output
+  const outputNode = document.getElementById("output");
+  outputNode.innerHTML = "";
+
+  // Process emoticons, update custom names, process dates/times
+  processElements(fragment);
 
   outputNode.appendChild(fragment);
+
   document.body.classList.add("showChat");
   document.getElementById("from").addEventListener("change", fromNameChangeHandler);
   document.getElementById("to").addEventListener("change", toNameChangeHandler);
@@ -621,7 +629,7 @@ addEventListener("DOMContentLoaded", () => {
   });
   document.getElementById("from").addEventListener("change", fromNameChangeHandler);
   document.getElementById("to").addEventListener("change", toNameChangeHandler);
-  
+
   document.getElementById("dateToggle").addEventListener("change", () => {
     document.body.classList.toggle("show-date");
   });

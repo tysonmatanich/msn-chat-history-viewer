@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  background-color: #84acee;
+  background-color: #fff;
   background-image: url('../ui/wallpaper.webp');
   background-repeat: no-repeat;
   background-position: center;
@@ -13,24 +13,28 @@ body {
   height: 100vh
 }
 
-body>header {
+body > .viewer_header {
   z-index: 1;
   position: relative;
-  text-align: right;
-  display: flex;
-  align-items: center;
 
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%) center/cover no-repeat;
-  }
+  > div {
+    z-index: 2;
+    position: relative;
+    text-align: right;
+    display: flex;
+    align-items: center;
 
-  > p {
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%) center/cover no-repeat;
+    }
+
+    > p {
       text-align: left;
       color: #fff;
       padding: 0 8px;
@@ -41,34 +45,35 @@ body>header {
       & a {
         color: #fff;
       }
-  }
+    }
 
-  > button {
-    z-index: 1;
-    position: relative;
-    color: #fff;
-    background: green;
-    border: 0;
-    font-size: 17px;
-    padding: 6px 18px;
-    font-style: italic;
-    
-    box-shadow:
-      -4px 1px 11px #333333c9 inset,
-      1px -1px 3px #333333c9 inset;
+    > button {
+      z-index: 1;
+      position: relative;
+      color: #fff;
+      background: green;
+      border: 0;
+      font-size: 17px;
+      padding: 6px 18px;
+      font-style: italic;
+      
+      box-shadow:
+        -4px 1px 11px #333333c9 inset,
+        1px -1px 3px #333333c9 inset;
 
-    background: radial-gradient(circle, #249530 0%, #3c873c 100%) center / cover no-repeat;
-    text-shadow: 1px 1px 1px #333;
-    border-radius: 10px 0 0 15px;
+      background: radial-gradient(circle, #249530 0%, #3c873c 100%) center / cover no-repeat;
+      text-shadow: 1px 1px 1px #333;
+      border-radius: 10px 0 0 15px;
 
-    &:hover {
-      cursor: pointer;
+      &:hover {
+        cursor: pointer;
+      }
     }
   }
 
-  .options-menu {
+  > .options-menu {
+    z-index: 1;
     position: absolute;
-    z-index: -1;
     top: 0;
     right: 0;
 
@@ -305,12 +310,14 @@ body>header {
   display: none;
 }
 
-body.showChat #drop_zone {
-  display: none;
-}
+body.showChat {
+  #drop_zone {
+    display: none;
+  }
 
-body.showChat #output {
-  display: grid;
+  #output {
+    display: grid;
+  }
 }
 
 #openFileUploadButton {
