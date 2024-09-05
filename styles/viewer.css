@@ -4,7 +4,7 @@ body {
   padding: 0;
   font-family: sans-serif;
   background-color: #fff;
-  background-image: url('../ui/wallpaper.webp');
+  background-image: url('../images/ui/wallpaper.webp');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -41,7 +41,7 @@ body > .viewer_header {
       font-size: 0.8em;
       opacity: 0.6;
       flex-grow: 1;
-    
+
       & a {
         color: #fff;
       }
@@ -56,7 +56,7 @@ body > .viewer_header {
       font-size: 17px;
       padding: 6px 18px;
       font-style: italic;
-      
+
       box-shadow:
         -4px 1px 11px #333333c9 inset,
         1px -1px 3px #333333c9 inset;

@@ -39,13 +39,89 @@ function readFile(file) {
     fileReader.readAsText(file);
 }
 
+function testXSLPerformance(xmlString, xslString1, xslString2) {
+  // Parse XML and XSL strings into DOM objects
+  const parser = new DOMParser();
+  const xmlDoc = parser.parseFromString(xmlString, "application/xml");
+  const xslDoc1 = parser.parseFromString(xslString1, "application/xml");
+  const xslDoc2 = parser.parseFromString(xslString2, "application/xml");
+
+  // Function to transform XML using XSL
+  function transformXML(xml, xsl) {
+    const xsltProcessor = new XSLTProcessor();
+    xsltProcessor.importStylesheet(xsl);
+    const resultDocument = xsltProcessor.transformToDocument(xml);
+    return new XMLSerializer().serializeToString(resultDocument);
+  }
+
+  // Measure performance for the first XSL
+  const start1 = performance.now();
+  transformXML(xmlDoc, xslDoc1);
+  const end1 = performance.now();
+  const time1 = end1 - start1;
+
+  // Measure performance for the second XSL
+  const start2 = performance.now();
+  transformXML(xmlDoc, xslDoc2);
+  const end2 = performance.now();
+  const time2 = end2 - start2;
+
+
+ // Log the results
+//  console.log(`Time taken for XSL 1: ${time1} ms`);
+//  console.log(`Time taken for XSL 2: ${time2} ms`);
+
+  // Return the results
+  return {
+    xsl1Time: time1,
+    xsl2Time: time2,
+  };
+}
+
 async function transformXml(xmlDoc, domParser) {
-  const xslResponse = await fetch("../xslt/to-html.xslt");
-  const xslString = await xslResponse.text();
-  const xsltProcessor = new XSLTProcessor();
-  xsltProcessor.importStylesheet(domParser.parseFromString(xslString, "application/xml"));
-  const fragment = xsltProcessor.transformToFragment(xmlDoc, document);
-  showChat(fragment);
+  const comparePerfOfTwoFiles = false; //TODO: Remove
+  if (!comparePerfOfTwoFiles) {
+    // Load XSL file
+    const xslResponse = await fetch("../xslt/to-html.xslt");
+    const xslString = await xslResponse.text();
+    const xsltProcessor = new XSLTProcessor();
+    xsltProcessor.importStylesheet(domParser.parseFromString(xslString, "application/xml"));
+
+    // Run transform
+    startTimer("transform XML");
+    const fragment = xsltProcessor.transformToFragment(xmlDoc, document);
+    stopTimer("transform XML");
+
+    showChat(fragment);
+  } else {
+    const xslResponse = await fetch("../transform0.2.xsl");
+    const xslString = await xslResponse.text();
+
+    const xslResponse2 = await fetch("../transform0.3.xsl");
+    const xslString2 = await xslResponse2.text();
+
+    // Example usage
+    let runTimes = 3000;
+    let result = null;
+    let time1 = 0;
+    let time2 = 0;
+    // let times1 = [];
+    // let times2 = [];
+    for (let i = 0; i < runTimes; i++) {
+      result = testXSLPerformance(xmlDoc, xslString, xslString2);
+      time1 += result.xsl1Time;
+      time2 += result.xsl2Time;
+      // times1.push(result.xsl1Time);
+      // times2.push(result.xsl2Time);
+
+      result = testXSLPerformance(xmlDoc, xslString2, xslString);
+      time1 += result.xsl2Time;
+      time2 += result.xsl1Time;
+    }
+    console.log(time1 / runTimes, time2  / runTimes);
+    // console.log(times1);
+    // console.log(times2);
+  }
 }
 
 function escapeRegExp(string) {
@@ -435,10 +511,46 @@ function toNameChangeHandler() {
   updateCustomNameTo(document);
 }
 
+
+const enableTimers = true;
+const timers = {};
+function startTimer(name) {
+  if (enableTimers) {
+    timers[name] = {
+      start: new Date()
+    };
+  }
+}
+function stopTimer(name) {
+  if (enableTimers) {
+    timers[name].end = new Date();
+  }
+}
+
+function alterTimers() {
+  if (enableTimers) {
+    let resultMessage = '';
+    for (const timerName in timers) {
+      const timer = timers[timerName];
+      resultMessage += `${timerName}: ${roundNumber((timer.end - timer.start) / 1000, 3)}s\n`;
+    }
+    console.log(resultMessage);
+    //alert(resultMessage);
+  }
+}
+
+
+
 function processElements(fragment) {
+  startTimer("process emoticons");
+
   // Process emoticons
   processEmoticons(fragment.querySelectorAll(".msn_message_text"));
   processEmoticons(fragment.querySelectorAll(".friendly-name"));
+
+  stopTimer("process emoticons");
+
+  startTimer("process custom names");
 
   // Update custom names
   const logElement = fragment.querySelectorAll(".msn_log")[0];
@@ -455,10 +567,19 @@ function processElements(fragment) {
     updateCustomNameFrom(fragment);
   }
 
+  stopTimer("process custom names");
+
+  startTimer("process date time");
+
   // Process dates/times
   processDateTime(fragment);
+
+  stopTimer("process date time");
 }
 
+
+
+const batchLoading = true; //TODO: For low perf devices, only insert a portion of the children and expose the rest on scroll
 function showChat(fragment) {
   document.getElementById("from").removeEventListener("change", fromNameChangeHandler);
   document.getElementById("to").removeEventListener("change", toNameChangeHandler);
@@ -467,10 +588,147 @@ function showChat(fragment) {
   const outputNode = document.getElementById("output");
   outputNode.innerHTML = "";
 
-  // Process emoticons, update custom names, process dates/times
-  processElements(fragment);
+  if (!batchLoading) {
+    processElements(fragment);
 
-  outputNode.appendChild(fragment);
+
+    if (false) {
+      const observer = new PerformanceObserver((list) => {
+        const entries = list.getEntries();
+        entries.forEach((entry) => {
+          window.setTimeout(() => {
+            alert(`Time to append and display: ${roundNumber(entry.duration / 1000, 3)}s`);
+          }, 1000)
+        });
+      });
+      observer.observe({ entryTypes: ["measure"] });
+      const mutationObserver = new MutationObserver((mutationsList, observer) => {
+        for (const mutation of mutationsList) {
+            if (mutation.addedNodes.length > 0) {
+                performance.mark("end");
+                performance.measure("appendChildToDisplay", "start", "end");
+                observer.disconnect();
+            }
+        }
+      });
+      mutationObserver.observe(outputNode, { childList: true });
+      performance.mark("start");
+    }
+
+    // const tempDiv = document.createElement("div");
+    // tempDiv.appendChild(fragment);
+    // outputNode.innerHTML = tempDiv.innerHTML;
+
+    requestAnimationFrame(() => {
+
+
+      //outputNode.innerHTML = fragment.documentElement.innerHTML; // As fragment
+      //NOTE: fragment: 86s, document: 52s
+      //outputNode.innerHTML = fragment.firstChild.innerHTML; // As document
+
+
+
+      //NOTE: fragment: 82s, document: 41s
+      // outputNode.append(fragment.firstChild.firstChild);
+      // outputNode.append(fragment.firstChild.firstChild.nextSibling);
+
+      // outputNode.append(fragment.firstChild.firstChild);
+      // outputNode.append(fragment.firstChild.firstChild);
+
+
+      //outputNode.append(fragment);
+
+
+      if (false) {
+        // Append subject
+        outputNode.append(fragment.firstChild);
+
+        // Copy messages into a new fragment
+        const tempFragment = document.createDocumentFragment();
+        let msnLog = fragment.firstChild.firstChild;
+        tempFragment.replaceChildren(...msnLog.childNodes);
+
+        // Append history with blank msn log
+        outputNode.append(fragment.firstChild);
+
+
+        // Move elements's contents into shadow dom
+        for (const element of tempFragment.children) {
+          const existingChildren = Array.from(element.children);
+          const shadow = element.attachShadow({ mode: "open" });
+          // Move existing children to shadow DOM
+          existingChildren.forEach((child) => {
+            shadow.appendChild(child);
+          });
+        }
+
+        //TODO: for some reason its not visible on ios or isnt inserted?
+        for (const element of tempFragment.children) {
+          msnLog.append(element);
+        }
+      } else {
+        // Append subject
+        outputNode.append(fragment.firstChild);
+
+        // Copy messages into a new fragment
+        const tempFragment = document.createDocumentFragment();
+        let msnLog = fragment.firstChild.firstChild;
+        tempFragment.replaceChildren(...msnLog.childNodes);
+
+        // Append history with blank msn log
+        outputNode.append(fragment.firstChild);
+
+        for (const element of tempFragment.children) {
+          msnLog.append(element);
+        }
+        alert("done");
+      }
+
+    });
+
+
+
+  }
+  else {
+    processElements(fragment);
+    const msnLogElement = fragment.firstChild.nextSibling.firstChild;
+
+    // Put all the messages in a fragment
+    let tempFragment = new DocumentFragment();
+    tempFragment.append(...msnLogElement.childNodes);
+
+    // Insert the subject and history containers
+    outputNode.appendChild(fragment.firstChild);
+    outputNode.appendChild(fragment.firstChild);
+
+    const batchTimeDelay = 30;
+    const batchSize = 100;
+
+    alert(`${tempFragment.childNodes.length} messages. ${(roundNumber((tempFragment.childNodes.length / batchSize) * batchTimeDelay) / 60000, 1)} minutes to load.`);
+
+    const insertMessageBatch = function() {
+      // Reinsert the first batch of messages
+      let i = 0;
+      while (tempFragment.childNodes.length > 0 && i < batchSize) {
+        const child = tempFragment.childNodes[0];
+        msnLogElement.appendChild(child);
+        i++;
+      }
+      if (tempFragment.childNodes.length < 1) {
+        //clearInterval(intervalId);
+        alert("All messages loaded");
+      }
+      else {
+        window.setTimeout(insertMessageBatch, batchTimeDelay)
+      }
+    };
+    insertMessageBatch();
+
+
+
+  }
+
+  alterTimers();
 
   document.body.classList.add("showChat");
   document.getElementById("from").addEventListener("change", fromNameChangeHandler);

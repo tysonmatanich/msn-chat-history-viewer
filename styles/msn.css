@@ -17,7 +17,7 @@
 .msn-messenger-window {
   width: 100%;
   height: 100%;
-  
+
   overflow: hidden;
   box-shadow:
       2px 2px 5px #0009,
@@ -29,7 +29,7 @@
     min-height: var(--height);
     height: 100%;
     width: 100%;
-    background: #D7E4F5 url('../ui/main-background.png') no-repeat;
+    background: #D7E4F5 url('../images/ui/main-background.png') no-repeat;
     background-position: right bottom;
     display: grid;
     grid-template-rows: var(--toolbar-height) 1fr 0 2px;
@@ -54,11 +54,11 @@
       width: calc(100% + 2px);
       height: 100%;
       background-image:
-        url('../ui/main-corner-left.png'),
-        url('../ui/main-corner-right.png'),
-        url('../ui/main-left.png'),
-        url('../ui/main-right.png'),
-        url('../ui/main-bottom.png');
+        url('../images/ui/main-corner-left.png'),
+        url('../images/ui/main-corner-right.png'),
+        url('../images/ui/main-left.png'),
+        url('../images/ui/main-right.png'),
+        url('../images/ui/main-bottom.png');
       background-repeat: no-repeat, no-repeat, repeat-y, repeat-y, repeat-x;
       background-position: bottom left, bottom -1px right, bottom left, bottom right, bottom;
       clip-path: polygon(0 calc(var(--toolbar-height) - 2px), 100% 20px, 100% 100%, 0 100%);
@@ -130,12 +130,12 @@
           minmax(0, 2fr);
         > div:nth-child(n) { display: block; }
       }
-      
+
 
       place-items: center;
       justify-content: flex-end;
       align-items: center;
-      background: url('../ui/toolbar-background.png') repeat;
+      background: url('../images/ui/toolbar-background.png') repeat;
       background-size: contain;
     }
 
@@ -148,22 +148,22 @@
     }
 
     .toolbar-small-container .left {
-      background: url('../ui/small-toolbar-left-background.png') no-repeat;
+      background: url('../images/ui/small-toolbar-left-background.png') no-repeat;
     }
 
     .toolbar-small-container .center {
       background:
-        url('../ui/msn-logo.png') top -3px left 4px,
-        url('../ui/small-toolbar-center-background.png');
+        url('../images/ui/msn-logo.png') top -3px left 4px,
+        url('../images/ui/small-toolbar-center-background.png');
       background-repeat: no-repeat, repeat-x;
     }
 
     .toolbar-small-container .right {
-      background: url('../ui/small-toolbar-right-background.png') no-repeat;
+      background: url('../images/ui/small-toolbar-right-background.png') no-repeat;
     }
 
     .toolbar-small-container .end {
-      background: url('../ui/small-toolbar-end-background.png') repeat;
+      background: url('../images/ui/small-toolbar-end-background.png') repeat;
     }
 
     .center .buttons {
@@ -193,7 +193,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('../ui/small-circle-button.png') no-repeat;
+    background: url('../images/ui/small-circle-button.png') no-repeat;
     background-size: cover;
   }
 
@@ -284,13 +284,13 @@
       &::before {
         content: "\00a0<";
       }
-  
+
       &::after {
         content: ">";
       }
     }
   }
-  
+
   .history {
     background: #fff;
 
