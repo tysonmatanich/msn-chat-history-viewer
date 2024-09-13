@@ -4,6 +4,16 @@ View your MSN Messenger chat history XML files in browser with early 2000's styl
 
 [Try it out now](https://tysonmatanich.github.io/msn-chat-history-viewer/index.html)
 
+## Commands
+
+```bash
+# Use Parcel to serve localy and inline XSLT into JavaScript
+npm run serve
+
+# Use Parcel to inline XSLT into JavaScript and JavaScript and into HTML
+npm run build
+```
+
 ## Features
 
 - Simply open the index.html file and drag on a Messenger XML file over to view it formatted similar to how it looked back in the early 2000's
