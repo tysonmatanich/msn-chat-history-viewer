@@ -5,7 +5,7 @@ import {
   updateCustomNameTo,
 } from "./htmlProcessing.js";
 
-const xsltPath = "../xslt/to-html.xslt";
+import xsltString from "bundle-text:../xslt/to-html.xslt"; // Inlined with Parcel
 
 // Constants for element IDs and class names
 const ELEMENT_IDS = {
@@ -45,9 +45,10 @@ const Viewer = {
         // If dropped items aren't files, reject them
         if (item.kind === "file") {
           try {
+            const file = item.getAsFile();
             const fragment = await readFileAndTransformXml(
-              item.getAsFile(),
-              xsltPath
+              file,
+              xsltString
             );
             Viewer.onShowingChat(fragment);
           } catch (error) {
@@ -62,11 +63,11 @@ const Viewer = {
   // Handle file change event
   fileChangeHandler: async (e) => {
     try {
+      const file = e.target.files[0];
       const fragment = await readFileAndTransformXml(
-        e.target.files[0],
-        xsltPath
+        file,
+        xsltString
       );
-      console.log(fragment);
       Viewer.onShowingChat(fragment);
     } catch (error) {
       console.error("Error:", error);

@@ -1,0 +1,31 @@
+{
+  "name": "msn-can-history-viewer",
+  "version": "1.0.0",
+  "scripts": {
+    "watch": "node switch-config.js serve && parcel watch index.html --no-cache",
+    "serve": "node switch-config.js serve && parcel serve index.html --no-cache --port 8888",
+    "build": "node switch-config.js build && parcel build index.html --no-cache"
+  },
+  "parcelIgnore": [
+    "images/.+",
+    "fonts/.+"
+  ],
+  "staticFiles": [
+    {
+      "staticPath": "fonts",
+      "staticOutPath": "fonts"
+    },
+    {
+      "staticPath": "images",
+      "staticOutPath": "images"
+    }
+  ],
+  "devDependencies": {
+    "@parcel/transformer-inline-string": "^2.12.0",
+    "parcel": "^2.12.0",
+    "parcel-reporter-static-files-copy": "^1.5.3",
+    "parcel-resolver-ignore": "^2.2.0",
+    "posthtml": "^0.16.6",
+    "posthtml-inline-assets": "^3.1.0"
+  }
+}

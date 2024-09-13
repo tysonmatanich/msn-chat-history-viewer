@@ -23,10 +23,7 @@ const readFileAsXml = (xmlFile) => {
   });
 };
 
-const transformXml = async (xmlDoc, xsltPath) => {
-  // Fetch XSLT document
-  const xsltResponse = await fetch(xsltPath);
-  const xsltString = await xsltResponse.text();
+const transformXml = async (xmlDoc, xsltString) => {
   const xsltProcessor = new XSLTProcessor();
   xsltProcessor.importStylesheet(
     domParser.parseFromString(xsltString, "application/xml")
@@ -37,10 +34,10 @@ const transformXml = async (xmlDoc, xsltPath) => {
   return fragment;
 };
 
-export const readFileAndTransformXml = async (xmlFile, xsltPath) => {
+export const readFileAndTransformXml = async (xmlFile, xsltString) => {
   try {
     const xmlDoc = await readFileAsXml(xmlFile);
-    const fragment = await transformXml(xmlDoc, xsltPath);
+    const fragment = await transformXml(xmlDoc, xsltString);
     return fragment;
   } catch (error) {
     console.error("Error processing XML:", error);

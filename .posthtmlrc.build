@@ -1,0 +1,12 @@
+{
+  "plugins": {
+    "posthtml-inline-assets": {
+      "cwd": "./",
+      "errors": "warn",
+      "transforms": {
+        "favicon": false,
+        "image": false
+      }
+    }
+  }
+}

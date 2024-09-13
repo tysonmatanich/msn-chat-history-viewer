@@ -1,0 +1,15 @@
+{
+  "plugins": {
+    "posthtml-inline-assets": {
+      "cwd": "./",
+      "errors": "warn",
+      "root": "./",
+      "transforms": {
+        "favicon": false,
+        "image": false,
+        "script": false,
+        "style": false
+      }
+    }
+  }
+}
