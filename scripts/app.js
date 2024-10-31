@@ -45,6 +45,8 @@ const Viewer = {
       e.preventDefault();
     }
     document.body.classList.remove(CLASS_NAMES.dragOver);
+    Viewer.closeMenu();
+
     if (e.dataTransfer.items) {
       for (const item of e.dataTransfer.items) {
         // If dropped items aren't files, reject them
@@ -183,11 +185,26 @@ const Viewer = {
   // Add drag and drop listeners
   addDragAndDropListeners: () => {
     const debounceDelay = 200;
-    document.addEventListener("dragenter", Viewer.dragFileDebounce(Viewer.dragBegin, debounceDelay, true));
-    document.addEventListener("dragover", Viewer.dragFileDebounce(Viewer.dragBegin, debounceDelay, true));
-    document.addEventListener("dragleave", Viewer.dragFileDebounce(Viewer.dragEnd, debounceDelay));
-    document.addEventListener("dragend", Viewer.dragFileDebounce(Viewer.dragEnd, debounceDelay));
-    document.addEventListener("drop", Viewer.dragFileDebounce(Viewer.fileDropHandler, 0, true));
+    document.addEventListener(
+      "dragenter",
+      Viewer.dragFileDebounce(Viewer.dragBegin, debounceDelay, true)
+    );
+    document.addEventListener(
+      "dragover",
+      Viewer.dragFileDebounce(Viewer.dragBegin, debounceDelay, true)
+    );
+    document.addEventListener(
+      "dragleave",
+      Viewer.dragFileDebounce(Viewer.dragEnd, debounceDelay)
+    );
+    document.addEventListener(
+      "dragend",
+      Viewer.dragFileDebounce(Viewer.dragEnd, debounceDelay)
+    );
+    document.addEventListener(
+      "drop",
+      Viewer.dragFileDebounce(Viewer.fileDropHandler, 0, true)
+    );
   },
 
   // Add file upload listeners
@@ -210,6 +227,18 @@ const Viewer = {
       .addEventListener("change", Viewer.fileChangeHandler);
   },
 
+  // Open options menu
+  openMenu: () => {
+    document.body.classList.add(CLASS_NAMES.showOptions);
+    document.body.addEventListener("click", Viewer.bodyClick);
+  },
+
+  // Close options menu
+  closeMenu: () => {
+    document.body.removeEventListener("click", Viewer.bodyClick);
+    document.body.classList.remove(CLASS_NAMES.showOptions);
+  },
+
   // Add options toggle listeners
   addOptionsToggleListeners: () => {
     document
@@ -217,11 +246,9 @@ const Viewer = {
       .addEventListener("click", (e) => {
         e.stopPropagation();
         if (document.body.classList.contains(CLASS_NAMES.showOptions)) {
-          document.body.removeEventListener("click", Viewer.bodyClick);
-          document.body.classList.remove(CLASS_NAMES.showOptions);
+          Viewer.closeMenu();
         } else {
-          document.body.classList.add(CLASS_NAMES.showOptions);
-          document.body.addEventListener("click", Viewer.bodyClick);
+          Viewer.openMenu();
         }
       });
   },
