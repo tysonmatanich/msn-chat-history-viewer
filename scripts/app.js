@@ -9,7 +9,6 @@ import xsltString from "bundle-text:../xslt/to-html.xslt"; // Inlined with Parce
 
 // Constants for element IDs and class names
 const ELEMENT_IDS = {
-  msnApp: "msn-app",
   dropZone: "drop_zone",
   fileXmlUpload: "fileXmlUpload",
   openFileUploadButton: "openFileUploadButton",
@@ -26,6 +25,7 @@ const ELEMENT_IDS = {
   output: "output",
 };
 const CLASS_NAMES = {
+  dragOver: "drag-over",
   showChat: "showChat",
   showOptions: "show-options",
   hideEmoticons: "hide-emoticons",
@@ -39,21 +39,20 @@ const CLASS_NAMES = {
 const Viewer = {
   // Handle file drop event
   fileDropHandler: async (e) => {
-    e.preventDefault();
+    if (e.defaultPrevented == false) {
+      e.preventDefault();
+    }
+    document.body.classList.remove(CLASS_NAMES.dragOver);
     if (e.dataTransfer.items) {
       for (const item of e.dataTransfer.items) {
         // If dropped items aren't files, reject them
         if (item.kind === "file") {
           try {
             const file = item.getAsFile();
-            const fragment = await readFileAndTransformXml(
-              file,
-              xsltString
-            );
+            const fragment = await readFileAndTransformXml(file, xsltString);
             Viewer.onShowingChat(fragment);
           } catch (error) {
             console.error("Error:", error);
-            //TODO: Add user feedback here
           }
         }
       }
@@ -64,14 +63,10 @@ const Viewer = {
   fileChangeHandler: async (e) => {
     try {
       const file = e.target.files[0];
-      const fragment = await readFileAndTransformXml(
-        file,
-        xsltString
-      );
+      const fragment = await readFileAndTransformXml(file, xsltString);
       Viewer.onShowingChat(fragment);
     } catch (error) {
       console.error("Error:", error);
-      //TODO: Add user feedback here
     }
   },
 
@@ -142,12 +137,55 @@ const Viewer = {
     Viewer.addResetListener();
   },
 
+  dragFileDebounceTimeoutId: null,
+
+  dragFileDebounce: (func, delay, preventDefault) => {
+    return (...args) => {
+      let e = args[0];
+      if (preventDefault && e && e.preventDefault) {
+        e.preventDefault();
+      }
+      if (delay === 0) {
+        // No delay so clear/reset the existing timer and call immediately
+        clearTimeout(Viewer.dragFileDebounceTimeoutId);
+        Viewer.dragFileDebounceTimeoutId = null;
+        func.apply(this, args);
+      } else if (Viewer.dragFileDebounceTimeoutId == null) {
+        // Call immediately and then start a timer
+        func.apply(this, args);
+        Viewer.dragFileDebounceTimeoutId = setTimeout(() => {
+          Viewer.dragFileDebounceTimeoutId = null;
+        }, delay);
+      } else {
+        // Clear timer and start a new one
+        clearTimeout(Viewer.dragFileDebounceTimeoutId);
+        Viewer.dragFileDebounceTimeoutId = setTimeout(() => {
+          Viewer.dragFileDebounceTimeoutId = null;
+          func.apply(this, args);
+        }, delay);
+      }
+    };
+  },
+
+  dragBegin: (e) => {
+    if (e.defaultPrevented == false) {
+      e.preventDefault();
+    }
+    document.body.classList.add(CLASS_NAMES.dragOver);
+  },
+
+  dragEnd: () => {
+    document.body.classList.remove(CLASS_NAMES.dragOver);
+  },
+
   // Add drag and drop listeners
   addDragAndDropListeners: () => {
-    const app = document.getElementById(ELEMENT_IDS.msnApp);
-    app.addEventListener("dragenter", (e) => e.preventDefault());
-    app.addEventListener("dragover", (e) => e.preventDefault());
-    app.addEventListener("drop", Viewer.fileDropHandler);
+    const debounceDelay = 200;
+    document.addEventListener("dragenter", Viewer.dragFileDebounce(Viewer.dragBegin, debounceDelay, true));
+    document.addEventListener("dragover", Viewer.dragFileDebounce(Viewer.dragBegin, debounceDelay, true));
+    document.addEventListener("dragleave", Viewer.dragFileDebounce(Viewer.dragEnd, debounceDelay));
+    document.addEventListener("dragend", Viewer.dragFileDebounce(Viewer.dragEnd, debounceDelay));
+    document.addEventListener("drop", Viewer.dragFileDebounce(Viewer.fileDropHandler, 0, true));
   },
 
   // Add file upload listeners

@@ -2,7 +2,7 @@ html,
 body {
   margin: 0;
   padding: 0;
-  font-family: sans-serif;
+  font-family: "Verdana";
   background-color: #fff;
   background-image: url('../images/ui/wallpaper.webp');
   background-repeat: no-repeat;
@@ -31,11 +31,20 @@ body > .viewer_header {
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(to bottom, #245edb 0%, #3f8cf3 9%, #245edb 18%, #245edb 92%, #333 100%) center/cover no-repeat;
+      background: linear-gradient(
+        #2e6cd7 2%,
+        #4991e3 6%,
+        #4991e3 9%,
+        #2a68df 15%,
+        #2356d9 20%,
+        #2864e6 88%,
+        #215bd6 93%,
+        #0a3b9f 99%
+      ) center / cover no-repeat;
     }
 
     > p {
-      text-align: left;
+      text-align: right;
       color: #fff;
       padding: 0 8px;
       font-size: 0.8em;
@@ -49,24 +58,35 @@ body > .viewer_header {
 
     > button {
       z-index: 1;
-      position: relative;
       color: #fff;
-      background: green;
+      text-shadow: 1px 1px 2.7px #000000;
       border: 0;
-      font-size: 17px;
       padding: 6px 18px;
+      font-size: 17px;
       font-style: italic;
-
-      box-shadow:
-        -4px 1px 11px #333333c9 inset,
-        1px -1px 3px #333333c9 inset;
-
-      background: radial-gradient(circle, #249530 0%, #3c873c 100%) center / cover no-repeat;
-      text-shadow: 1px 1px 1px #333;
-      border-radius: 10px 0 0 15px;
+      position: relative;
+      box-shadow: inset 2px 1px 2px #32b02773, inset -1px 1px 3px #0000006e, inset -3px 5px 18px #00000091, inset 3px -1px 6px #00000070, 0px 3px 3px #ffffff45;
+      position: relative;
+      overflow: hidden;
+      border-top-right-radius: 6px 50%;
+      border-bottom-right-radius: 7px 50%;
+      background-color: #32b027;
 
       &:hover {
         cursor: pointer;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0;
+        right: 0;
+        box-shadow: 1px 2px 1px #215a21d4 inset, 3px 6px 5px #ffffff85 inset;
+        mask-image: linear-gradient(-6deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+        border-top-left-radius: 3px 12px;
+        border-bottom-left-radius: 7px 17px;
       }
     }
   }
@@ -75,7 +95,7 @@ body > .viewer_header {
     z-index: 1;
     position: absolute;
     top: 0;
-    right: 0;
+    left: 0;
 
     display: none;
 
@@ -87,7 +107,7 @@ body > .viewer_header {
       position: absolute;
       z-index: 1;
       bottom: 0;
-      right: 0;
+      left: 0;
 
       color: #fff;
       border: 1px solid #112d61;
@@ -111,6 +131,7 @@ body > .viewer_header {
         background: linear-gradient(to bottom, #245edb 0%, #0c8dea 100%);
         padding: 8px 0px 7px 12px;
         font-size: 1.2em;
+        text-shadow: 1px 1px 2.7px #0000008f;
       }
 
       > .menu-body {
@@ -122,7 +143,7 @@ body > .viewer_header {
         padding: 10px;
         color: #000;
 
-        text-align: right;
+        text-align: left;
 
         &::before {
           content: "";
@@ -165,20 +186,25 @@ body > .viewer_header {
 }
 
 #reset {
-  &::before {
-    content: "X";
-    background-color: #c20808;
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #fff;
-    width: 1em;
-    display: inline-block;
-  }
-
   background: transparent;
   border: 0;
   color: #fff;
   padding: 0.4em 0.5em;
+  font-size: 0.9em;
+  display: inline-block;
+  appearance: none;
+
+  &::before {
+    content: "X";
+    background-color: #d03f03;
+    box-shadow: inset .5px .5px 0px #842d09, inset -.5px -.5px 0px #000000, inset 2px 2px 5px #ffffff78, inset -2px -2px 5px #1414146b;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    width: 1.15em;
+    display: inline-block;
+    margin-right: 4px;
+  }
 
   &:hover {
     cursor: pointer;
@@ -191,13 +217,18 @@ body > .viewer_header {
 
   .toggle-switch {
     display: inline-block;
-    background: #ccc;
-    border-radius: 16px;
-    width: 52px;
-    height: 26px;
+    background: #fff;
+    border-radius: 3px;
+    width: 30px;
+    height: 5px;
     position: relative;
     vertical-align: middle;
     transition: background 0.25s;
+
+    outline: 1px solid #7f8a9b;
+    outline-offset: -1px;
+
+    box-shadow: inset -1px -1px 3px #fff, inset 2px 3px 3px #0000004d;
 
     &:before,
     &:after {
@@ -206,29 +237,36 @@ body > .viewer_header {
 
     &:before {
       display: block;
-      background: linear-gradient(to bottom, #fff 0%, #eee 100%);
-      border-radius: 50%;
-      box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
-      width: 18px;
-      height: 18px;
+      background: linear-gradient(to right, #fff 0%, #cbc8c8 100%);
+      border-radius: 2px;
+      width: 9px;
+      height: 20px;
       position: absolute;
-      top: 4px;
-      left: 4px;
+      top: -8px;
+      left: -1px;
       transition: left 0.25s;
+      outline: 1px solid #7f8a9b;
+      outline-offset: -1px;
+      border-top: 4px solid;
+      border-bottom: 4px solid;
+      border-color: #afb9c9;
+      box-sizing: border-box;
+      box-shadow: 1px 1px 2px 0px #ffffff inset;
     }
   }
 
   &:hover .toggle-switch:before {
-    background: linear-gradient(to bottom, #fff 0%, #fff 100%);
-    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    /* background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); */
   }
 
   .toggle-checkbox:checked+.toggle-switch {
-    background: #56c080;
-  }
+    background: #76ffac;
 
-  .toggle-checkbox:checked+.toggle-switch:before {
-    left: 30px;
+    &:before {
+      left: 22px;
+      border-color: #2bc838
+    }
   }
 
   .toggle-checkbox {
@@ -237,7 +275,7 @@ body > .viewer_header {
   }
 
   .toggle-label {
-    margin-right: 1px;
+    margin-left: 4px;
     vertical-align: middle;
   }
 }
@@ -249,6 +287,9 @@ body > .viewer_header {
     background-color: #d3e5f9;
     padding: 7px 10px 10px;
     margin: 2px -10px;
+    border: 1px solid #a3b8d2;
+    border-left: 0;
+    border-right: 0;
 
     label {
       display: block;
@@ -257,10 +298,16 @@ body > .viewer_header {
 
   & input[type=text] {
     border-radius: 0;
-    border: 1px solid #ccc;
+    border: 1px solid #97afc7;
     padding: 5px 5px;
     width: 100%;
     box-sizing: border-box;
+
+    &:focus {
+      outline: 1px solid #fff;
+      outline-offset: -2px;
+      box-shadow: inset -1px -2px 3px #f4a93c, inset 1px 1px 3px #f4a93c;
+    }
   }
 
   &.show > div {
@@ -329,12 +376,27 @@ body.showChat {
   padding: 0;
 }
 
-#drop_zone {
 
-  &:hover {
-    outline: 2px dashed #0f0000;
-    outline-offset: -2px;
+body.drag-over .msn-messenger-window {
+  box-shadow: 0px 0px 3px 4px #f4a93c
+}
+
+#drop_zone {
+  position: relative;
+
+  &:hover, &:drop {
     cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      box-shadow: inset -2px -2px 3px #f4a93c, inset 1px 1px 3px #f4a93c;
+      border-radius: 8px 8px 0 0;
+    }
   }
 
   .msn_log {

@@ -21,8 +21,8 @@
   <body>
     <header class="viewer_header">
       <div>
-        <p>By <a target="_blank" href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
         <button id="optionsToggle"><span data-text="options"></span></button>
+        <p>By <a target="_blank" href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
       </div>
       <div class="options-menu">
         <div class="container">
@@ -30,7 +30,6 @@
 
             <div>
               <label class="toggle">
-                <span class="toggle-label"><span data-text="Emoticons"></span></span>
                 <input
                   id="emoticonsToggle"
                   class="toggle-checkbox"
@@ -38,16 +37,17 @@
                   checked
                 />
                 <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Emoticons"></span></span>
               </label>
             </div>
 
             <div id="customName">
               <label class="toggle">
+                <input class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
                 <span class="toggle-label"
                   ><span data-text="Show Names"></span
                 ></span>
-                <input class="toggle-checkbox" type="checkbox" />
-                <div class="toggle-switch"></div>
               </label>
               <div>
                 <div>
@@ -63,45 +63,45 @@
 
             <div class="show-logon-name">
               <label class="toggle">
-                <span class="toggle-label"
-                  ><span data-text="Show Logon Names"></span
-                ></span>
                 <input
                   id="logonNameToggle"
                   class="toggle-checkbox"
                   type="checkbox"
                 />
                 <div class="toggle-switch"></div>
+                <span class="toggle-label"
+                  ><span data-text="Show Logon Names"></span
+                ></span>
               </label>
             </div>
 
             <div class="date-toggle">
               <label class="toggle">
-                <span class="toggle-label"><span data-text="Date"></span></span>
                 <input id="dateToggle" class="toggle-checkbox" type="checkbox" />
                 <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Date"></span></span>
               </label>
             </div>
 
             <div class="time-toggle">
               <label class="toggle">
-                <span class="toggle-label"><span data-text="Time"></span></span>
                 <input id="timeToggle" class="toggle-checkbox" type="checkbox" />
                 <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Time"></span></span>
               </label>
             </div>
 
             <div>
               <label class="toggle">
-                <span class="toggle-label"
-                  ><span data-text="Threaded"></span
-                ></span>
                 <input
                   id="threadFormatToggle"
                   class="toggle-checkbox"
                   type="checkbox"
                 />
                 <div class="toggle-switch"></div>
+                <span class="toggle-label"
+                  ><span data-text="Threaded"></span
+                ></span>
               </label>
             </div>
           </div>
@@ -118,82 +118,76 @@
         <div class="container">
           <div class="msn-messenger-toolbar">
             <div class="container">
-              <div class="toolbar-container">
-                <div class="image-circular-button up-down">
-                  <div class="container">
-                    <img src="images/ui/toolbar/small-up-down.png" alt="" />
-                  </div>
+              <div class="image-circular-button up-down">
+                <div class="container">
+                  <img src="images/ui/toolbar/small-up-down.png" alt="" />
                 </div>
+              </div>
+              <div class="toolbar-left">
                 <div class="image-button">
                   <div class="container">
-                    <img src="images/ui/toolbar/invite.png" alt="" />
+                    <img src="images/ui/toolbar/invite_808.png" alt="" />
                     <div class="text">
-                      <em data-text="I"></em><span data-text="nvite"></span>
+                      <span data-text="Invite"></span>
                     </div>
                   </div>
                 </div>
                 <div class="image-button">
                   <div class="container">
-                    <img src="images/ui/toolbar/send.png" alt="" />
+                    <img src="images/ui/toolbar/send files_810.png" alt="" />
                     <div class="text">
-                      <span data-text="Send Fi"></span><em data-text="l"></em
-                      ><span data-text="es"></span>
+                      <span data-text="Send Files"></span>
                     </div>
                   </div>
                 </div>
                 <div class="image-button">
                   <div class="container">
-                    <img src="images/ui/toolbar/video.png" alt="" />
+                    <img src="images/ui/toolbar/webcam_812.png" alt="" />
                     <div class="text">
-                      <span data-text="Vide"></span><em data-text="o"></em>
+                      <span data-text="Webcam"></span>
                     </div>
                   </div>
                 </div>
                 <div class="image-button">
                   <div class="container">
-                    <img src="images/ui/toolbar/voice.png" alt="" />
+                    <img src="images/ui/toolbar/audio_811.png" alt="" />
                     <div class="text">
-                      <span data-text="Voi"></span><em data-text="c"></em
-                      ><span data-text="e"></span>
+                      <span data-text="Audio"></span>
                     </div>
                   </div>
                 </div>
                 <div class="image-button">
                   <div class="container">
-                    <img src="images/ui/toolbar/activities.png" alt="" />
+                    <img src="images/ui/toolbar/fun-and-games_809.png" alt="" />
                     <div class="text">
-                      <span data-text="Acti"></span><em data-text="v"></em
-                      ><span data-text="ities"></span>
-                    </div>
-                  </div>
-                </div>
-                <div class="image-button">
-                  <div class="container">
-                    <img src="images/ui/toolbar/games.png" alt="" />
-                    <div class="text">
-                      <em data-text="G"></em><span data-text="ames"></span>
+                      <span data-text="Fun &amp; Games"></span>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="toolbar-small-container">
-                <div class="left"></div>
-                <div class="center">
+              <div class="toolbar-right">
+                <div class="toolbar-top">
+                  <img src="images/ui/toolbar/msn_729.png" alt="" />
+                </div>
+                <div class="toolbar-bottom">
                   <div class="buttons">
                     <div class="image-circular-button">
                       <div class="container">
-                        <img src="images/ui/toolbar/small-block.png" alt="" />
+                        <img src="images/ui/down_765.png" alt="" />
                       </div>
                     </div>
                     <div class="image-circular-button">
                       <div class="container">
-                        <img src="images/ui/toolbar/small-paint.png" alt="" />
+                        <img src="images/ui/toolbar/small-block_815.png" alt="" />
+                      </div>
+                    </div>
+                    <div class="image-circular-button">
+                      <div class="container">
+                        <img src="images/ui/toolbar/small-paint_819.png" alt="" />
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="right"></div>
-                <div class="end"></div>
               </div>
             </div>
           </div>
@@ -220,8 +214,8 @@
               <div class="msn-messenger-avatar">
                 <div class="container">
                   <img class="picture" src="images/ui/avatars/msn.png" alt="" />
-                  <button class="down"><span data-text="⯆"></span></button>
-                  <img class="expand" src="images/ui/expand-left.png" alt="" />
+                  <img class="down" src="images/ui/down_765.png" alt="" />
+                  <img class="expand" src="images/ui/expand-left_793.png" alt="" />
                 </div>
               </div>
             </div>
@@ -233,54 +227,29 @@
                   <div class="actionbar">
                     <div class="simple-button">
                       <div class="container">
-                        <img src="images/ui/simple/letter.png" alt="" />
+                        <img src="images/ui/actionbar/letter_1010.png" alt="" />
+                        <span class="text" data-text="Font"></span>
                       </div>
                     </div>
                     <div class="simple-button">
                       <div class="container">
-                        <img src="images/ui/simple/happy.png" alt="" />
-                        <button><span data-text="⯆"></span></button>
+                        <img src="images/ui/actionbar/happy_1011.png" alt="" />
+                        <span class="down"></span>
                       </div>
                     </div>
                     <div class="simple-button">
                       <div class="container">
-                        <img src="images/ui/simple/voice-clip.png" alt="" />
-                        <span data-text="Voice clip"></span>
-                      </div>
-                    </div>
-                    <div class="simple-button">
-                      <div class="container">
-                        <img src="images/ui/simple/wink.png" alt="" />
-                        <button><span data-text="⯆"></span></button>
-                      </div>
-                    </div>
-                    <div class="simple-button">
-                      <div class="container">
-                        <img src="images/ui/simple/mountain.png" alt="" />
-                        <button><span data-text="⯆"></span></button>
-                      </div>
-                    </div>
-                    <div class="simple-button">
-                      <div class="container">
-                        <img src="images/ui/simple/gift.png" alt="" />
-                        <button><span data-text="⯆"></span></button>
-                      </div>
-                    </div>
-                    <div class="simple-button">
-                      <div class="container">
-                        <img src="images/ui/simple/nudge.png" alt="" />
+                        <img src="images/ui/actionbar/mountain_1009.png" alt="" />
+                        <span class="text" data-text="Backgrounds"></span>
+                        <span class="down"></span>
                       </div>
                     </div>
                   </div>
                   <div class="chat">
                     <div class="buttons">
-                      <button class="normal">
-                        <em data-text="S"></em><span data-text="end"></span>
-                      </button>
-                      <button class="small normal">
-                        <span data-text="Sea"></span><span data-text="r"></span
-                        ><span data-text="ch"></span>
-                      </button>
+                      <div class="normal">
+                        <span data-text="Send"></span>
+                      </div>
                     </div>
                   </div>
                   <div class="tabs">
@@ -299,9 +268,9 @@
               </div>
               <div class="msn-messenger-avatar">
                 <div class="container">
-                  <img class="picture" src="images/ui/avatars/duck.png" alt="" />
-                  <button class="down"><span data-text="⯆"></span></button>
-                  <img class="expand" src="images/ui/expand-left.png" alt="" />
+                  <img class="picture small" src="images/ui/avatars/duck.png" alt="" />
+                  <img class="down" src="images/ui/down_765.png" alt="" />
+                  <img class="expand" src="images/ui/expand-left_793.png" alt="" />
                 </div>
               </div>
             </div>

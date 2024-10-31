@@ -8,6 +8,52 @@
   display: flex;
   flex-direction: column;
 
+  /* scrollbar-color: #49688f #ebf1fd;
+  scrollbar-width: 17px; */
+
+  &::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ebf1fd;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 1px solid #8d95c8;
+    background: #dae0ef;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    background-image: url('../images/ui/scrollbar/thumb_1004.bmp');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  &::-webkit-scrollbar-button:vertical:start:decrement {
+    border: 1px solid #8d95c8;
+    background: #dae0ef;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    background-image: url('../images/ui/scrollbar/up_1001.bmp');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  &::-webkit-scrollbar-button:vertical:end:increment {
+    border: 1px solid #8d95c8;
+    background: #dae0ef;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    background-image: url('../images/ui/scrollbar/down_1002.bmp');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+
   .msn_message {
     font-size: 1.4em;
 
@@ -16,28 +62,35 @@
       margin-bottom: 10px;
 
       &.is-self-true  {
-        align-self: flex-end;
+        align-self: flex-start;
 
         .msn_message_text {
-          background-color: #d7e4f4;
+          padding: 9px 11px;
+          background-color: #f5f5f5;
+          border: 1px solid #cfd2e3;
+
+          background-color: #000;
         }
       }
 
       &.is-self-false {
-        align-self: flex-start;
+        align-self: flex-end;
 
         .msn_message_text {
-          background-color: #ededed;
+          padding: 9px 11px;
+          background-color: #ebf1fc;
+          border: 1px solid #cfd2e3;
+
+          background-color: #000;
         }
       }
     }
 
     .msn_message_header {
-      /* color: #8d8a8ae6; */
-      color: #989596; /*  0.9 of #8d8a8a */
-      /* opacity: 0.9; TODO: This CSS is VERY SLOW on mobile */
+      color: #878686;
       display: flex;
       flex-wrap: wrap;
+      justify-content: space-between;
       align-items: center;
       gap: 3px 10px;
     }
@@ -106,15 +159,9 @@
       display: flex;
       gap: 3px;
       font-size: 0.8em;
-      flex-grow: 1;
-      justify-content: flex-end;
 
       span {
         display: contents;
-      }
-
-      .thread-format & {
-        justify-content: flex-start;
       }
 
       .msn_date,
@@ -146,7 +193,7 @@
     }
 
     .msn_message_text {
-      margin: 0.2em 1em;
+      margin: 2px 0 2px 16px;
       line-height: 21px;
 
       .thread-format & {
@@ -173,6 +220,9 @@
   .file_notes {
     font-size: 12px;
     background-color: #d7e4f4;
+    border: 1px solid #adb0c3;
+    border-right: 0;
+    border-left: 0;
     margin: 10px -10px;
     line-height: 18px;
     text-align: center;
@@ -182,7 +232,8 @@
 
   .txt_notes {
     font-size: 12px;
-    background-color: #f7f7f7;
+    background-color: #f5f5f5;
+    border: 1px solid #cfd2e3;
     margin: 10px 0;
     line-height: 18px;
     text-align: left;
@@ -212,19 +263,32 @@
 }
 
 .emoticon {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  margin-top: -4px;
+  width: 19px;
+  height: 19px;
+  overflow: hidden;
+
+
+
   & span {
     display: none;
   }
 
   & img {
-    vertical-align: middle;
     display: inline-block;
-    margin-top: -4px;
-    width: 19px;
-    height: 19px;
+
+
+    &[data-animation] {
+       animation: var(--animation) var(--duration) steps(1) infinite;
+    }
   }
 
   .hide-emoticons & {
+    display: contents;
+
     & span {
       display: inline;
     }
@@ -233,4 +297,103 @@
       display: none;
     }
   }
+}
+
+@keyframes msn_03 {
+  0% { margin-left: 0; }
+  62.5% { margin-left: -24px; }
+  93.75% { margin-left: -48px; }
+}
+
+@keyframes msn_11 {
+  0% { margin-left: 0; }
+  6.6666% { margin-left: -24px; }
+  13.3333% { margin-left: -48px; }
+  20% { margin-left: -72px; }
+  26.6666% { margin-left: -96px; }
+  33.3333% { margin-left: -120px; }
+  40% { margin-left: -144px; }
+  46.6666% { margin-left: -168px; }
+  53.3333% { margin-left: -192px; }
+  60% { margin-left: -216px; }
+  66.6666% { margin-left: -240px; }
+  73.3333% { margin-left: -264px; }
+  80% { margin-left: -288px; }
+  86.6666% { margin-left: -312px; }
+  93.3333% { margin-left: -336px; }
+}
+
+@keyframes msn_30 {
+  0% { margin-left: 0; }
+  12.5% { margin-left: -24px; }
+  25% { margin-left: -48px; }
+  37.5% { margin-left: -72px; }
+  50% { margin-left: -96px; }
+  62.5% { margin-left: -120px; }
+  75% { margin-left: -144px; }
+  87.5% { margin-left: -168px; }
+}
+
+@keyframes msn_43 {
+  0% { margin-left: 0; }
+  10% { margin-left: -24px; }
+  20% { margin-left: -48px; }
+  30% { margin-left: -72px; }
+  40% { margin-left: -96px; }
+  60% { margin-left: -120px; }
+  70% { margin-left: -144px; }
+  80% { margin-left: -168px; }
+  90% { margin-left: -192px; }
+}
+
+@keyframes msn_72 {
+  0% { margin-left: 0; }
+  7.1428% { margin-left: -24px; }
+  14.2857% { margin-left: -48px; }
+  85.7142% { margin-left: -72px; }
+  92.8571% { margin-left: -96px; }
+}
+
+@keyframes msn_73 {
+  0% { margin-left: 0; }
+  14.2857% { margin-left: -24px; }
+  50% { margin-left: -48px; }
+  64.2857% { margin-left: -72px; }
+}
+
+@keyframes msn_74 {
+  0% { margin-left: 0; }
+  14.2857% { margin-left: -24px; }
+  28.5714% { margin-left: -48px; }
+  42.8571% { margin-left: -72px; }
+  71.4285% { margin-left: -96px; }
+  85.7142% { margin-left: -120px; }
+}
+
+@keyframes msn_76 {
+  0% { margin-left: 0; }
+  66.6666% { margin-left: -24px; }
+  73.3333% { margin-left: -48px; }
+  80% { margin-left: -72px; }
+  86.6666% { margin-left: -96px; }
+  93.3333% { margin-left: -120px; }
+}
+
+@keyframes msn_78 {
+  0% { margin-left: 0; }
+  11.1111% { margin-left: -24px; }
+  22.2222% { margin-left: -48px; }
+  33.3333% { margin-left: -72px; }
+  38.8888% { margin-left: -96px; }
+  61.1111% { margin-left: -120px; }
+  66.6666% { margin-left: -144px; }
+  77.7777% { margin-left: -168px; }
+  88.8888% { margin-left: -192px; }
+}
+
+@keyframes msn_75 {
+  0% { margin-left: 0; }
+  62.5% { margin-left: -24px; }
+  75% { margin-left: -48px; }
+  87.5% { margin-left: -72px; }
 }

@@ -16,7 +16,11 @@ function processEmoticons(elements) {
               string.substring(offset - emoticonMarkupStart.length - 10, offset)
             )
           ) {
-            return `${emoticonMarkupStart}${match}</span><img src="${emoticon.img}" alt=""/></span>`;
+            if (emoticon.frames) {
+              return `${emoticonMarkupStart}${match}</span><img src="${emoticon.frames.img}" data-animation="" style="--animation:${emoticon.frames.animation};--duration:${emoticon.frames.duration}s;" alt=""/></span>`;
+            } else {
+              return `${emoticonMarkupStart}${match}</span><img src="${emoticon.img}" alt=""/></span>`;
+            }
           } else {
             return match;
           }
