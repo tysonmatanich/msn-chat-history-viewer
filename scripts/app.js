@@ -3,6 +3,7 @@ import {
   processElements,
   updateCustomNameFrom,
   updateCustomNameTo,
+  animationEnabled,
 } from "./htmlProcessing.js";
 
 import xsltString from "bundle-text:../xslt/to-html.xslt"; // Inlined with Parcel
@@ -14,6 +15,7 @@ const ELEMENT_IDS = {
   openFileUploadButton: "openFileUploadButton",
   optionsToggle: "optionsToggle",
   emoticonsToggle: "emoticonsToggle",
+  animatedToggle: "animatedToggle",
   logonNameToggle: "logonNameToggle",
   customName: "customName",
   from: "from",
@@ -248,6 +250,12 @@ const Viewer = {
       .getElementById(ELEMENT_IDS.emoticonsToggle)
       .addEventListener("change", () => {
         document.body.classList.toggle(CLASS_NAMES.hideEmoticons);
+      });
+
+    document
+      .getElementById(ELEMENT_IDS.animatedToggle)
+      .addEventListener("change", (e) => {
+        animationEnabled(e.target.checked, document);
       });
 
     document

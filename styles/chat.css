@@ -68,8 +68,6 @@
           padding: 9px 11px;
           background-color: #f5f5f5;
           border: 1px solid #cfd2e3;
-
-          background-color: #000;
         }
       }
 
@@ -80,8 +78,6 @@
           padding: 9px 11px;
           background-color: #ebf1fc;
           border: 1px solid #cfd2e3;
-
-          background-color: #000;
         }
       }
     }
@@ -277,10 +273,6 @@
 
   & img {
     display: inline-block;
-
-    &[data-animation] {
-       animation: var(--animation) var(--duration) steps(1) infinite;
-    }
   }
 
   .hide-emoticons & {
@@ -294,111 +286,4 @@
       display: none;
     }
   }
-}
-
-@keyframes msn_03 {
-  0% { margin-left: 0; }
-  62.5% { margin-left: -24px; }
-  93.75% { margin-left: -48px; }
-}
-
-@keyframes msn_11 {
-  0% { margin-left: 0; }
-  6.6666% { margin-left: -24px; }
-  13.3333% { margin-left: -48px; }
-  20% { margin-left: -72px; }
-  26.6666% { margin-left: -96px; }
-  33.3333% { margin-left: -120px; }
-  40% { margin-left: -144px; }
-  46.6666% { margin-left: -168px; }
-  53.3333% { margin-left: -192px; }
-  60% { margin-left: -216px; }
-  66.6666% { margin-left: -240px; }
-  73.3333% { margin-left: -264px; }
-  80% { margin-left: -288px; }
-  86.6666% { margin-left: -312px; }
-  93.3333% { margin-left: -336px; }
-}
-
-@keyframes msn_30 {
-  0% { margin-left: 0; }
-  12.5% { margin-left: -24px; }
-  25% { margin-left: -48px; }
-  37.5% { margin-left: -72px; }
-  50% { margin-left: -96px; }
-  62.5% { margin-left: -120px; }
-  75% { margin-left: -144px; }
-  87.5% { margin-left: -168px; }
-}
-
-@keyframes msn_43 {
-  0% { margin-left: 0; }
-  10% { margin-left: -24px; }
-  20% { margin-left: -48px; }
-  30% { margin-left: -72px; }
-  40% { margin-left: -96px; }
-  60% { margin-left: -120px; }
-  70% { margin-left: -144px; }
-  80% { margin-left: -168px; }
-  90% { margin-left: -192px; }
-}
-
-@keyframes msn_72 {
-  0% { margin-left: 0; }
-  7.1428% { margin-left: -24px; }
-  14.2857% { margin-left: -48px; }
-  85.7142% { margin-left: -72px; }
-  92.8571% { margin-left: -96px; }
-}
-
-@keyframes msn_73 {
-  0% { margin-left: 0; }
-  14.2857% { margin-left: -24px; }
-  50% { margin-left: -48px; }
-  64.2857% { margin-left: -72px; }
-}
-
-@keyframes msn_74 {
-  0% { margin-left: 0; }
-  14.2857% { margin-left: -24px; }
-  28.5714% { margin-left: -48px; }
-  42.8571% { margin-left: -72px; }
-  71.4285% { margin-left: -96px; }
-  85.7142% { margin-left: -120px; }
-}
-
-@keyframes msn_76 {
-  0% { margin-left: 0; }
-  66.6666% { margin-left: -24px; }
-  73.3333% { margin-left: -48px; }
-  80% { margin-left: -72px; }
-  86.6666% { margin-left: -96px; }
-  93.3333% { margin-left: -120px; }
-}
-
-@keyframes msn_77 {
-  0% { margin-left: 0; }
-  20% { margin-left: -24px; }
-  40% { margin-left: -48px; }
-  60% { margin-left: -72px; }
-  80% { margin-left: -96px; }
-}
-
-@keyframes msn_78 {
-  0% { margin-left: 0; }
-  11.1111% { margin-left: -24px; }
-  22.2222% { margin-left: -48px; }
-  33.3333% { margin-left: -72px; }
-  38.8888% { margin-left: -96px; }
-  61.1111% { margin-left: -120px; }
-  66.6666% { margin-left: -144px; }
-  77.7777% { margin-left: -168px; }
-  88.8888% { margin-left: -192px; }
-}
-
-@keyframes msn_75 {
-  0% { margin-left: 0; }
-  62.5% { margin-left: -24px; }
-  75% { margin-left: -48px; }
-  87.5% { margin-left: -72px; }
 }

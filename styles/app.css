@@ -280,6 +280,10 @@ body > .viewer_header {
   }
 }
 
+.hide-emoticons #animated {
+  display: none;
+}
+
 #customName {
   > div {
     display: none;

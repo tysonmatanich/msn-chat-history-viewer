@@ -16,11 +16,7 @@ function processEmoticons(elements) {
               string.substring(offset - emoticonMarkupStart.length - 10, offset)
             )
           ) {
-            if (emoticon.frames) {
-              return `${emoticonMarkupStart}${match}</span><img src="${emoticon.frames.img}" data-animation="" style="--animation:${emoticon.frames.animation};--duration:${emoticon.frames.duration}s;" alt=""/></span>`;
-            } else {
-              return `${emoticonMarkupStart}${match}</span><img src="${emoticon.img}" alt=""/></span>`;
-            }
+            return `${emoticonMarkupStart}${match}</span><img src="${emoticon.gif ? emoticon.gif : emoticon.img}" ${emoticon.gif ? `data-img="${emoticon.img}" data-gif="${emoticon.gif}"` : ''}" alt=""/></span>`;
           } else {
             return match;
           }
@@ -63,6 +59,14 @@ export function updateCustomNameFrom(fragment) {
 
 export function updateCustomNameTo(fragment) {
   updateCustomName("to", fragment);
+}
+
+export function animationEnabled(enabled, fragment) {
+  fragment
+    .querySelectorAll(`.emoticon > img[data-gif]`)
+    .forEach((img) => {
+      img.src = img.getAttribute(enabled ? "data-gif" : "data-img");
+    });
 }
 
 function insertTimeElapsed(fragment) {
