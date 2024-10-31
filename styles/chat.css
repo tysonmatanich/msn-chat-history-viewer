@@ -271,15 +271,12 @@
   height: 19px;
   overflow: hidden;
 
-
-
   & span {
     display: none;
   }
 
   & img {
     display: inline-block;
-
 
     &[data-animation] {
        animation: var(--animation) var(--duration) steps(1) infinite;
@@ -377,6 +374,14 @@
   80% { margin-left: -72px; }
   86.6666% { margin-left: -96px; }
   93.3333% { margin-left: -120px; }
+}
+
+@keyframes msn_77 {
+  0% { margin-left: 0; }
+  20% { margin-left: -24px; }
+  40% { margin-left: -48px; }
+  60% { margin-left: -72px; }
+  80% { margin-left: -96px; }
 }
 
 @keyframes msn_78 {

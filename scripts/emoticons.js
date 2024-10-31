@@ -83,7 +83,7 @@ const _emoticons = [
   { img: "msn_74.png", frames: { img: "msn_74_x6.png", animation: 'msn_74', duration: 0.7, _delays: [100, 100, 100, 200, 100, 100] }, key: "Lightning", text: "(li)" },
   //Note: 75 must come before 04
   { img: "msn_76.png", frames: { img: "msn_76_x6.png", animation: 'msn_76', duration: 1.5, _delays: [1000, 100, 100, 100, 100, 100] }, key: "Eye-rolling", text: "8-)" },
-  { img: "msn_77.png", frames: { img: "msn_77_x5.png", animation: 'msn_77', duration: 1, _delays: [100, 100, 100, 100, 100] }, key: "Smoking", text: "(ci)" },
+  { img: "msn_77.png", frames: { img: "msn_77_x5.png", animation: 'msn_77', duration: 1, _delays: [200, 200, 200, 200, 200] }, key: "Smoking", text: "(ci)" },
   { img: "msn_78.png", frames: { img: "msn_78_x9.png", animation: 'msn_78', duration: 1.8, _delays: [200, 200, 200, 100, 400, 100, 200, 200, 200] }, key: "Sleepy", text: "|-)" },
   { img: "msn_79.png", key: "Xbox", text: "(xx)" },
 ];
