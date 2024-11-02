@@ -2,5 +2,3 @@
 .netlify
 /dist
 /node_modules
-/.parcel-cache
-.posthtmlrc

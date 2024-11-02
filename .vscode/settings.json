@@ -5,15 +5,11 @@
   "files.exclude": {
     ".netlify": true,
     "node_modules": true,
-    ".parcel-cache": true,
-    ".posthtmlrc": true
   },
   "search.exclude": {
     ".netlify/": true,
     "node_modules/": true,
     "dist/": true,
-    ".parcel-cache/": true,
-    ".posthtmlrc": true
   },
   "files.eol": "\n",
   "files.insertFinalNewline": true,

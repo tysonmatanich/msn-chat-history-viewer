@@ -2,9 +2,9 @@
   "name": "msn-chat-history-viewer",
   "version": "1.1.0",
   "scripts": {
+    "serve": "webpack serve --mode development",
     "build": "webpack --mode production --env MINIMIZE=true",
-    "build-local": "webpack --mode production --env MINIMIZE=true --env INLINE=true --env PUBLIC_PATH=./",
-    "serve": "webpack serve --mode development"
+    "build-filesys": "webpack --mode production --env MINIMIZE=true --env INLINE=true --env PUBLIC_PATH=./"
   },
   "devDependencies": {
     "clean-webpack-plugin": "^4.0.0",

@@ -25,20 +25,22 @@ View your MSN Messenger chat history XML files in a web browser with early 2000'
 ## Commands
 
 ```bash
-# Use Parcel to serve locally and inline XSLT into JavaScript
+# Use Webpack to serve locally with hot reloading
 npm run serve
 
-# Use Parcel to inline XSLT into JavaScript and JavaScript and into HTML
+# Use Webpack to bundle CSS and JavaScript into separate files and inline the XSLT in JS for use with a web server
+filesys
 npm run build
+
+# Use Webpack to inline CSS, JavaScript, XSLT so it can run off the file system without a web server
+npm run build-filesys
 ```
 
 ## Known Issues
 
 - Some chat history XML files are missing `@LogonName` which custom names relies on to determine who sent the message
 - Only supports `.xml` files no support for other files such as `.txt`, `.rtf`
-- Testing for this tool was done in Chrome on Windows. Might not work correctly in other browsers. Feel free to open a pull request to help add support.
-- Sometimes [Parcel](https://parceljs.org/) crashes in serve mode when editing files. Rerunning `npm run serve` fixes the issue.
-- Only tested on Chrome for Windows and Chrome for iOS, bugs may and probably do exist.
+- Only tested on Chrome for Windows and Chrome for iOS, bugs may exist with other browsers.
 
 ## MSN Messenger Assets
 
