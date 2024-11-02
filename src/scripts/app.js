@@ -1,3 +1,8 @@
+import "../styles/reset.css";
+import "../styles/app.css";
+import "../styles/msn.css";
+import "../styles/chat.css";
+
 import { readFileAndTransformXml } from "./xmlToHtml.js";
 import {
   processElements,
@@ -6,7 +11,7 @@ import {
   animationEnabled,
 } from "./htmlProcessing.js";
 
-import xsltString from "bundle-text:../xslt/to-html.xslt"; // Inlined with Parcel
+import xsltString from "../xslt/to-html.xslt"; // Inlined as string
 
 // Constants for element IDs and class names
 const ELEMENT_IDS = {
@@ -338,3 +343,26 @@ const Viewer = {
 };
 
 document.addEventListener("DOMContentLoaded", Viewer.init);
+
+// Hot Module Replacement setup
+if (module.hot) {
+  module.hot.accept("../styles/app.css", function () {
+    require("../styles/app.css");
+  });
+  module.hot.accept("../styles/msn.css", function () {
+    require("../styles/msn.css");
+  });
+  module.hot.accept("../styles/chat.css", function () {
+    require("../styles/chat.css");
+  });
+  module.hot.accept("./xmlToHtml.js", function () {
+    require("./xmlToHtml.js");
+  });
+  module.hot.accept("./htmlProcessing.js", function () {
+    require("./htmlProcessing.js");
+  });
+  module.hot.accept("../xslt/to-html.xslt", function () {
+    require("../xslt/to-html.xslt");
+  });
+  module.hot.accept();
+}
