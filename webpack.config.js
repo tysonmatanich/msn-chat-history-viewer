@@ -9,7 +9,7 @@ const webpack = require("webpack");
 module.exports = (env) => {
   const MINIMIZE = env && env.MINIMIZE === "true";
   const INLINE = env && env.INLINE === "true";
-  const PUBLIC_PATH = (env && env.PUBLIC_PATH) || "/";
+  const PUBLIC_PATH = process.env.PUBLIC_PATH || (env && env.PUBLIC_PATH) || "/";
 
   return {
     mode: MINIMIZE ? "production" : "development",
