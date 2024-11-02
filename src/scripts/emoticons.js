@@ -1,7 +1,5 @@
 import { escapeRegExp } from "./escapeRegExp.js";
 
-//._delays isnt used in code but is used for manualy calculating the keyframes in CSS
-
 const _emoticons = [
   // Order of these two is important
   { img: require('../images/emoticons/msn_75.png'), gif: require('../images/emoticons/msn_75.gif'), key: "Party", text: "&lt;:o)" },

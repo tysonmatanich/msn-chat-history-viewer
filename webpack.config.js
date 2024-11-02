@@ -2,8 +2,9 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-//const CopyWebpackPlugin = require("copy-webpack-plugin");
 const webpack = require("webpack");
+
+const publicPath = process.env.PUBLIC_PATH || "/";
 
 module.exports = (env) => {
   const minimize = env && env.minimize === "true";
@@ -14,7 +15,7 @@ module.exports = (env) => {
     output: {
       filename: "bundle.js",
       path: path.resolve(__dirname, "dist"),
-      publicPath: "/", //TODO: Adjust if needed
+      publicPath: publicPath,
       assetModuleFilename: (pathData) => {
         const filepath = path.dirname(pathData.filename).split("/").slice(1).join("/");
         return `${filepath}/[name][ext]?v=[contenthash]`;
@@ -55,16 +56,10 @@ module.exports = (env) => {
         {
           test: /\.(png|jpg|gif|ico|svg|webp|bmp|webmanifest)$/,
           type: "asset/resource",
-          // generator: {
-          //   filename: 'images/[name][ext][query]', // Ensure filenames remain unchanged
-          // }
         },
         {
           test: /\.(ttf|woff|woff2)$/,
           type: "asset/resource",
-          // generator: {
-          //   filename: 'fonts/[name][ext][query]', // Ensure filenames remain unchanged
-          // }
         },
         {
           test: /\.xslt$/,
@@ -78,14 +73,8 @@ module.exports = (env) => {
         template: "./src/index.html",
         inject: "body",
       }),
-      // new MiniCssExtractPlugin({
-      //   filename: "bundle.css",
-      // }),
       new HtmlInlineCSSWebpackPlugin(),
-      // new CopyWebpackPlugin({
-      //   patterns: [{ from: "src/images/emoticons", to: "images/emoticons" }],
-      // }),
-      new webpack.HotModuleReplacementPlugin(), // Ensure HMR plugin is enabled
+      new webpack.HotModuleReplacementPlugin(),
     ],
     devServer: {
       static: {
@@ -94,10 +83,10 @@ module.exports = (env) => {
       compress: true,
       port: 9000,
       open: false, // Prevents the browser from opening automatically
-      hot: true, // Enables hot module replacement
+      hot: true,
       liveReload: true,
       watchFiles: {
-        paths: ["src/**/*.html"], // Watch only HTML files for live reload
+        paths: ["src/**/*.html"], // Watch only HTML files for live reload (don't want page refresh on CSS or JS)
         options: {
           ignored: /node_modules/,
         },
