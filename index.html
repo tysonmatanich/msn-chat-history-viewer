@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MSN Chat History Viewer</title>
+    <link rel="apple-touch-icon" sizes="180x180" href="images/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon/favicon-16x16.png">
+    <link rel="manifest" href="images/favicon/site.webmanifest">
+    <link rel="mask-icon" href="images/favicon/safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="styles/reset.css" />
+    <link rel="stylesheet" href="styles/app.css" />
+    <link rel="stylesheet" href="styles/msn.css" />
+    <link rel="stylesheet" href="styles/chat.css" />
+  </head>
+  <body>
+    <header class="viewer_header">
+      <div>
+        <button id="optionsToggle"><span data-text="options"></span></button>
+        <p>By <a target="_blank" href="https://github.com/tysonmatanich/msn-chat-history-viewer">Tyson Matanich</a></p>
+      </div>
+      <div class="options-menu">
+        <div class="container">
+          <div class="menu-body">
+
+            <div>
+              <label class="toggle">
+                <input
+                  id="emoticonsToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                  checked
+                />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Emoticons"></span></span>
+              </label>
+            </div>
+
+            <div id="animated">
+              <label class="toggle">
+                <input
+                  id="animatedToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                  checked
+                />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Animated"></span></span>
+              </label>
+            </div>
+
+            <div id="customName">
+              <label class="toggle">
+                <input class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Show Names"></span></span>
+              </label>
+              <div>
+                <div>
+                  <label for="to"><span data-text="To"></span></label>
+                  <input type="text" id="to" name="to" value="To" />
+                </div>
+                <div>
+                  <label for="from"><span data-text="From"></span></label>
+                  <input type="text" id="from" name="from" value="From" />
+                </div>
+              </div>
+            </div>
+
+            <div class="show-logon-name">
+              <label class="toggle">
+                <input
+                  id="logonNameToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"
+                  ><span data-text="Show Logon Names"></span
+                ></span>
+              </label>
+            </div>
+
+            <div class="date-toggle">
+              <label class="toggle">
+                <input id="dateToggle" class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Date"></span></span>
+              </label>
+            </div>
+
+            <div class="time-toggle">
+              <label class="toggle">
+                <input id="timeToggle" class="toggle-checkbox" type="checkbox" />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"><span data-text="Time"></span></span>
+              </label>
+            </div>
+
+            <div>
+              <label class="toggle">
+                <input
+                  id="threadFormatToggle"
+                  class="toggle-checkbox"
+                  type="checkbox"
+                />
+                <div class="toggle-switch"></div>
+                <span class="toggle-label"
+                  ><span data-text="Threaded"></span
+                ></span>
+              </label>
+            </div>
+          </div>
+          <div class="menu-footer">
+            <button id="reset">
+              <span data-text="Clear Chat…"></span>
+            </button>
+          </div>
+      </div>
+      </div>
+    </header>
+    <main id="msn-app">
+      <div class="msn-messenger-window">
+        <div class="container">
+          <div class="msn-messenger-toolbar">
+            <div class="container">
+              <div class="image-circular-button up-down">
+                <div class="container">
+                  <img src="images/ui/toolbar/up-down_1063.png" alt="" />
+                </div>
+              </div>
+              <div class="toolbar-left">
+                <div class="image-button">
+                  <div class="container">
+                    <img src="images/ui/toolbar/invite_808.png" alt="" />
+                    <div class="text">
+                      <span data-text="Invite"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="image-button">
+                  <div class="container">
+                    <img src="images/ui/toolbar/send files_810.png" alt="" />
+                    <div class="text">
+                      <span data-text="Send Files"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="image-button">
+                  <div class="container">
+                    <img src="images/ui/toolbar/webcam_812.png" alt="" />
+                    <div class="text">
+                      <span data-text="Webcam"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="image-button">
+                  <div class="container">
+                    <img src="images/ui/toolbar/audio_811.png" alt="" />
+                    <div class="text">
+                      <span data-text="Audio"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="image-button">
+                  <div class="container">
+                    <img src="images/ui/toolbar/fun-and-games_809.png" alt="" />
+                    <div class="text">
+                      <span data-text="Fun &amp; Games"></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="toolbar-right">
+                <div class="toolbar-top">
+                  <img src="images/ui/toolbar/msn_729.png" alt="" />
+                </div>
+                <div class="toolbar-bottom">
+                  <div class="buttons">
+                    <div class="image-circular-button">
+                      <div class="container">
+                        <img src="images/ui/down_765.png" alt="" />
+                      </div>
+                    </div>
+                    <div class="image-circular-button">
+                      <div class="container">
+                        <img src="images/ui/toolbar/small-block_815.png" alt="" />
+                      </div>
+                    </div>
+                    <div class="image-circular-button">
+                      <div class="container">
+                        <img src="images/ui/toolbar/small-paint_819.png" alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="msn-messenger-remote-user">
+            <div class="container">
+              <div class="msn-messenger-history-chat">
+                <div id="drop_zone" class="container">
+                  <div class="subject">
+                    <span data-text="To:"></span>
+                    <strong><span data-text="TBD..."></span></strong>
+                  </div>
+                  <div class="history">
+                    <div class="msn_log">
+                      <p>
+                        <input type="file" id="fileXmlUpload" accept="text/xml, .xml" style="display:none" />
+                        <button id="openFileUploadButton">Upload</button> or drag chat history <strong>.XML</strong> file here to
+                        view it.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div id="output" class="container"></div>
+              </div>
+              <div class="msn-messenger-avatar">
+                <div class="container">
+                  <img class="picture" src="images/ui/avatars/msn.png" alt="" />
+                  <img class="down" src="images/ui/down_765.png" alt="" />
+                  <img class="expand" src="images/ui/expand-left_793.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="msn-messenger-local-user">
+            <div class="container">
+              <div class="msn-messenger-chat">
+                <div class="container">
+                  <div class="actionbar">
+                    <div class="simple-button">
+                      <div class="container">
+                        <img src="images/ui/actionbar/letter_1010.png" alt="" />
+                        <span class="text" data-text="Font"></span>
+                      </div>
+                    </div>
+                    <div class="simple-button">
+                      <div class="container">
+                        <img src="images/ui/actionbar/happy_1011.png" alt="" />
+                        <span class="down"></span>
+                      </div>
+                    </div>
+                    <div class="simple-button">
+                      <div class="container">
+                        <img src="images/ui/actionbar/mountain_1009.png" alt="" />
+                        <span class="text" data-text="Backgrounds"></span>
+                        <span class="down"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="chat">
+                    <div class="buttons">
+                      <div class="normal">
+                        <span data-text="Send"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="tabs"></div>
+                </div>
+              </div>
+              <div class="msn-messenger-avatar">
+                <div class="container">
+                  <img class="picture small" src="images/ui/avatars/duck.png" alt="" />
+                  <img class="down" src="images/ui/down_765.png" alt="" />
+                  <img class="expand" src="images/ui/expand-left_793.png" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="border-window"></div>
+        </div>
+      </div>
+    </main>
+    <script type="module" src="./root.js"></script>
+  </body>
+</html>
