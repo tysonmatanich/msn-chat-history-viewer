@@ -1,21 +1,24 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const HtmlInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").default;
+const HtmlInlineScriptPlugin = require("html-inline-script-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const webpack = require("webpack");
 
-const publicPath = process.env.PUBLIC_PATH || "/";
-
 module.exports = (env) => {
-  const minimize = env && env.minimize === "true";
+  const MINIMIZE = env && env.MINIMIZE === "true";
+  const INLINE = env && env.INLINE === "true";
+  const PUBLIC_PATH = (env && env.PUBLIC_PATH) || "/test/";
 
   return {
-    mode: minimize ? "production" : "development",
+    mode: MINIMIZE ? "production" : "development",
+    //devtool: MINIMIZE ? "source-map" : "eval-source-map",
     entry: "./src/scripts/app.js",
     output: {
       filename: "bundle.js",
       path: path.resolve(__dirname, "dist"),
-      publicPath: publicPath,
+      publicPath: PUBLIC_PATH,
       assetModuleFilename: (pathData) => {
         const filepath = path.dirname(pathData.filename).split("/").slice(1).join("/");
         return `${filepath}/[name][ext]?v=[contenthash]`;
@@ -30,7 +33,7 @@ module.exports = (env) => {
         {
           test: /\.css$/,
           use: [
-            "style-loader",
+            MiniCssExtractPlugin.loader,
             "css-loader",
             {
               loader: "postcss-loader",
@@ -46,7 +49,7 @@ module.exports = (env) => {
                         "is-pseudo-class": false,
                       },
                     }),
-                    minimize ? require("cssnano")({ preset: "default" }) : false,
+                    MINIMIZE ? require("cssnano")({ preset: "default" }) : false,
                   ].filter(Boolean),
                 },
               },
@@ -73,9 +76,11 @@ module.exports = (env) => {
         template: "./src/index.html",
         inject: "body",
       }),
-      new HtmlInlineCSSWebpackPlugin(),
+      INLINE ? new HtmlInlineCSSWebpackPlugin() : null, // Inline CSS into HTML
+      new MiniCssExtractPlugin({ filename: "[name].css" }),
+      INLINE ? new HtmlInlineScriptPlugin() : null, // Inline JS into HTML
       new webpack.HotModuleReplacementPlugin(),
-    ],
+    ].filter(Boolean), // Filter out null values
     devServer: {
       static: {
         directory: path.resolve(__dirname, "dist"),
