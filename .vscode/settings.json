@@ -5,6 +5,7 @@
   "files.exclude": {
     ".netlify": true,
     "node_modules": true,
+    "desktop.ini": true
   },
   "search.exclude": {
     ".netlify/": true,
