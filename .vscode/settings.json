@@ -1,0 +1,21 @@
+{
+  "editor.formatOnSave": false,
+  "editor.rulers": [145],
+  "editor.tabSize": 2,
+  "files.exclude": {
+    ".netlify": true,
+    "node_modules": true,
+    "desktop.ini": true
+  },
+  "search.exclude": {
+    ".netlify/": true,
+    "node_modules/": true,
+    "dist/": true,
+  },
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "[plaintext]": {
+    "files.insertFinalNewline": false
+  }
+}

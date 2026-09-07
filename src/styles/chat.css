@@ -1,0 +1,289 @@
+.msn_log {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.5em 1em;
+
+  display: flex;
+  flex-direction: column;
+
+  /* scrollbar-color: #49688f #ebf1fd;
+  scrollbar-width: 17px; */
+
+  &::-webkit-scrollbar {
+    width: 17px;
+    height: 17px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #ebf1fd;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border: 1px solid #8d95c8;
+    background: #dae0ef;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    background-image: url('../images/ui/scrollbar/thumb_1004.bmp');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  &::-webkit-scrollbar-button:vertical:start:decrement {
+    border: 1px solid #8d95c8;
+    background: #dae0ef;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    background-image: url('../images/ui/scrollbar/up_1001.bmp');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  &::-webkit-scrollbar-button:vertical:end:increment {
+    border: 1px solid #8d95c8;
+    background: #dae0ef;
+    box-sizing: border-box;
+    border-radius: 2px;
+
+    background-image: url('../images/ui/scrollbar/down_1002.bmp');
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+
+  .msn_message {
+    font-size: 1.4em;
+
+    .thread-format & {
+      max-width: 64%;
+      margin-bottom: 10px;
+
+      &.is-self-true  {
+        align-self: flex-start;
+
+        .msn_message_text {
+          padding: 9px 11px;
+          background-color: #f5f5f5;
+          border: 1px solid #cfd2e3;
+        }
+      }
+
+      &.is-self-false {
+        align-self: flex-end;
+
+        .msn_message_text {
+          padding: 9px 11px;
+          background-color: #ebf1fc;
+          border: 1px solid #cfd2e3;
+        }
+      }
+    }
+
+    .msn_message_header {
+      color: #878686;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 3px 10px;
+    }
+
+    .msn_user {
+      flex-grow: 1;
+      display: flex;
+      gap: 0.25em;
+      flex-wrap: wrap;
+
+      .friendly-name {
+        &:after {
+          content: " says:";
+        }
+      }
+
+      .logon-name {
+        display: none;
+        font-size: .85em;
+        line-height: normal;
+
+        &::before {
+          content: "<";
+        }
+
+        &::after {
+          content: ">";
+        }
+
+        .show-logon-name & {
+          display: inline;
+        }
+
+        .show-logon-name &.has-logon-false {
+          display: inline;
+          color: #db0000;
+        }
+      }
+
+      .custom-name {
+        display: none;
+        font-size: .85em;
+        line-height: normal;
+
+        &::before {
+          content: "<";
+        }
+
+        &::after {
+          content: ">";
+        }
+
+        .show-custom-names &.is-from-true,
+        .show-custom-names &.is-to-true {
+          display: inline;
+        }
+
+        .show-custom-names &.is-from-false.is-to-false {
+          display: inline;
+          color: #db0000;
+        }
+      }
+    }
+
+    .msn_date_time {
+      display: flex;
+      gap: 3px;
+      font-size: 0.8em;
+
+      span {
+        display: contents;
+      }
+
+      .msn_date,
+      .msn_time {
+        display: none;
+      }
+
+      .show-date & {
+        .msn_date {
+          display: contents;
+        }
+      }
+
+      .show-time & {
+        .msn_time {
+          display: contents;
+        }
+      }
+
+      .msn_date+span {
+        display: none;
+      }
+
+      .show-date.show-time & {
+        .msn_date+span {
+          display: contents;
+        }
+      }
+    }
+
+    .msn_message_text {
+      margin: 2px 0 2px 16px;
+      line-height: 21px;
+
+      .thread-format & {
+        margin: 0.2em 0;
+        padding: 0.2em 1em;
+        border-radius: 8px;
+      }
+    }
+  }
+
+  .msn_invitation {
+    font-size: 1.2em;
+    border: 1px solid #8d8a8a;
+    border-left: 0;
+    border-right: 0;
+    margin: 13px 0;
+    padding: 7px 0;
+
+    .msn_message_text {
+      line-height: 21px;
+    }
+  }
+
+  .file_notes {
+    font-size: 12px;
+    background-color: #d7e4f4;
+    border: 1px solid #adb0c3;
+    border-right: 0;
+    border-left: 0;
+    margin: 10px -10px;
+    line-height: 18px;
+    text-align: center;
+    color: #000;
+    padding: 2px 10px;
+  }
+
+  .txt_notes {
+    font-size: 12px;
+    background-color: #f5f5f5;
+    border: 1px solid #cfd2e3;
+    margin: 10px 0;
+    line-height: 18px;
+    text-align: left;
+    color: #757575;
+    border-radius: 6px;
+    padding: 2px 10px;
+    overflow-x: auto;
+    overflow-y: visible;
+    flex-shrink: 0;
+  }
+
+  .file_notes + .txt_notes {
+    margin-top: 0;
+  }
+
+  .time-elapsed {
+    font-size: 1.2em;
+    border: 1px solid #8d8a8a;
+    border-left: 0;
+    border-right: 0;
+    margin: 13px 0;
+    padding: 7px 0;
+    line-height: 21px;
+    text-align: center;
+    color: #8d8a8a;
+  }
+}
+
+.emoticon {
+  position: relative;
+  vertical-align: middle;
+  display: inline-block;
+  margin-top: -4px;
+  width: 19px;
+  height: 19px;
+  overflow: hidden;
+
+  & span {
+    display: none;
+  }
+
+  & img {
+    display: inline-block;
+  }
+
+  .hide-emoticons & {
+    display: contents;
+
+    & span {
+      display: inline;
+    }
+
+    & img {
+      display: none;
+    }
+  }
+}

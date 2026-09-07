@@ -1,0 +1,422 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Verdana";
+  background-color: #fff;
+  background-image: url('../images/ui/wallpaper.webp');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  display: flex;
+  flex-direction: column-reverse;
+  height: 100vh
+}
+
+body > .viewer_header {
+  z-index: 1;
+  position: relative;
+
+  > div {
+    z-index: 2;
+    position: relative;
+    text-align: right;
+    display: flex;
+    align-items: center;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(
+        #2e6cd7 2%,
+        #4991e3 6%,
+        #4991e3 9%,
+        #2a68df 15%,
+        #2356d9 20%,
+        #2864e6 88%,
+        #215bd6 93%,
+        #0a3b9f 99%
+      ) center / cover no-repeat;
+    }
+
+    > p {
+      text-align: right;
+      color: #fff;
+      padding: 0 8px;
+      font-size: 0.8em;
+      opacity: 0.6;
+      flex-grow: 1;
+
+      & a {
+        color: #fff;
+      }
+    }
+
+    > button {
+      z-index: 1;
+      color: #fff;
+      text-shadow: 1px 1px 2.7px #000000;
+      border: 0;
+      padding: 6px 18px;
+      font-size: 17px;
+      font-style: italic;
+      position: relative;
+      box-shadow: inset 2px 1px 2px #32b02773, inset -1px 1px 3px #0000006e, inset -3px 5px 18px #00000091, inset 3px -1px 6px #00000070, 0px 3px 3px #ffffff45;
+      position: relative;
+      overflow: hidden;
+      border-top-right-radius: 6px 50%;
+      border-bottom-right-radius: 7px 50%;
+      background-color: #32b027;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        bottom: 0;
+        right: 0;
+        box-shadow: 1px 2px 1px #215a21d4 inset, 3px 6px 5px #ffffff85 inset;
+        mask-image: linear-gradient(-6deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
+        border-top-left-radius: 3px 12px;
+        border-bottom-left-radius: 7px 17px;
+      }
+    }
+  }
+
+  > .options-menu {
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: none;
+
+    .show-options & {
+      display: block;
+    }
+
+    > .container {
+      position: absolute;
+      z-index: 1;
+      bottom: 0;
+      left: 0;
+
+      color: #fff;
+      border: 1px solid #112d61;
+
+      background-color: #0c8dea;
+      min-width: 230px;
+      min-height: 270px;
+      border-radius: 7px 7px 0px 0px;
+      box-shadow:
+        2px 6px 10px #333,
+        -2px 0px 5px rgba(20, 20, 20, 0.6) inset,
+        2px 0px 3px #7fbce8 inset;
+      overflow: hidden;
+
+      &::before {
+        content: "Options";
+        display: flex;
+        align-items: center;
+        height: 40px;
+        box-shadow: 3px 2px 3px #7fbce8 inset;
+        background: linear-gradient(to bottom, #245edb 0%, #0c8dea 100%);
+        padding: 8px 0px 7px 12px;
+        font-size: 1.2em;
+        text-shadow: 1px 1px 2.7px #0000008f;
+      }
+
+      > .menu-body {
+        position: relative;
+        background-color: #fff;
+        border: 1px solid #0c8dea;
+        margin: 0 1px;
+        overflow: hidden;
+        padding: 10px;
+        color: #000;
+
+        text-align: left;
+
+        &::before {
+          content: "";
+          position: absolute;
+          top: -7.5px;
+          left: 10%;
+          width: 80%;
+          height: 5px;
+          border-radius: 50%;
+          box-shadow: 0px 4px 5px #e88f0b;
+          z-index: 10;
+        }
+
+        label {
+          font-size: 0.9em;
+          line-height: 2.1;
+        }
+
+        button {
+          background-color: #61a323;
+          border: 0;
+          color: #fff;
+          padding: 0.4em 0.5em;
+          border-radius: 4px;
+          box-shadow: 1px 1px 8px #0009;
+          font-size: inherit;
+        }
+      }
+
+      > .menu-footer {
+        content: "";
+        display: block;
+        background: linear-gradient(to top, #245edb 0%, #0c8dea 100%);
+        box-shadow: -2px -2px 5px rgba(20, 20, 20, 0.6) inset;
+        padding: 3px 0;
+        text-align: left;
+      }
+    }
+  }
+}
+
+#reset {
+  background: transparent;
+  border: 0;
+  color: #fff;
+  padding: 0.4em 0.5em;
+  font-size: 0.9em;
+  display: inline-block;
+  appearance: none;
+
+  &::before {
+    content: "X";
+    background-color: #d03f03;
+    box-shadow: inset .5px .5px 0px #842d09, inset -.5px -.5px 0px #000000, inset 2px 2px 5px #ffffff78, inset -2px -2px 5px #1414146b;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #fff;
+    width: 1.15em;
+    display: inline-block;
+    margin-right: 4px;
+  }
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.toggle {
+  cursor: pointer;
+  display: inline-block;
+
+  .toggle-switch {
+    display: inline-block;
+    background: #fff;
+    border-radius: 3px;
+    width: 30px;
+    height: 5px;
+    position: relative;
+    vertical-align: middle;
+    transition: background 0.25s;
+
+    outline: 1px solid #7f8a9b;
+    outline-offset: -1px;
+
+    box-shadow: inset -1px -1px 3px #fff, inset 2px 3px 3px #0000004d;
+
+    &:before,
+    &:after {
+      content: "";
+    }
+
+    &:before {
+      display: block;
+      background: linear-gradient(to right, #fff 0%, #cbc8c8 100%);
+      border-radius: 2px;
+      width: 9px;
+      height: 20px;
+      position: absolute;
+      top: -8px;
+      left: -1px;
+      transition: left 0.25s;
+      outline: 1px solid #7f8a9b;
+      outline-offset: -1px;
+      border-top: 4px solid;
+      border-bottom: 4px solid;
+      border-color: #afb9c9;
+      box-sizing: border-box;
+      box-shadow: 1px 1px 2px 0px #ffffff inset;
+    }
+  }
+
+  &:hover .toggle-switch:before {
+    /* background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5); */
+  }
+
+  .toggle-checkbox:checked+.toggle-switch {
+    background: #76ffac;
+
+    &:before {
+      left: 22px;
+      border-color: #2bc838
+    }
+  }
+
+  .toggle-checkbox {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .toggle-label {
+    margin-left: 4px;
+    vertical-align: middle;
+  }
+}
+
+.hide-emoticons #animated {
+  display: none;
+}
+
+#customName {
+  > div {
+    display: none;
+    text-align: left;
+    background-color: #d3e5f9;
+    padding: 7px 10px 10px;
+    margin: 2px -10px;
+    border: 1px solid #a3b8d2;
+    border-left: 0;
+    border-right: 0;
+
+    label {
+      display: block;
+    }
+  }
+
+  & input[type=text] {
+    border-radius: 0;
+    border: 1px solid #97afc7;
+    padding: 5px 5px;
+    width: 100%;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: 1px solid #fff;
+      outline-offset: -2px;
+      box-shadow: inset -1px -2px 3px #f4a93c, inset 1px 1px 3px #f4a93c;
+    }
+  }
+
+  &.show > div {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+
+    label {
+      line-height: normal;
+    }
+  }
+}
+
+#msn-app {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  flex-shrink: 1;
+  box-sizing: border-box;
+
+  margin: auto;
+  padding: 10px;
+  width: 100%;
+  max-width: 780px;
+  overflow: hidden;
+  padding: 10px max(4vw, 10px);
+
+  @media only screen and (min-width: 1024px) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  @media only screen and (min-height: 800px) {
+    padding-top: 3vh;
+    padding-bottom: 3vh;
+  }
+
+  @media only screen and (min-height: 1000px) {
+    padding-top: 5vh;
+    padding-bottom: 5vh;
+  }
+}
+
+#output {
+  display: none;
+}
+
+body.showChat {
+  #drop_zone {
+    display: none;
+  }
+
+  #output {
+    display: grid;
+  }
+}
+
+#openFileUploadButton {
+  color: inherit;
+  background: none;
+  border: none;
+  display: inline;
+  line-height: inherit;
+  padding: 0;
+}
+
+
+body.drag-over .msn-messenger-window {
+  box-shadow: 0px 0px 3px 4px #f4a93c
+}
+
+#drop_zone {
+  position: relative;
+
+  &:hover, &:drop {
+    cursor: pointer;
+
+    &::before {
+      content: "";
+      position: absolute;
+      top: 0px;
+      left: 0px;
+      right: 0px;
+      bottom: 0px;
+      box-shadow: inset -2px -2px 3px #f4a93c, inset 1px 1px 3px #f4a93c;
+      border-radius: 8px 8px 0 0;
+    }
+  }
+
+  .msn_log {
+    & p {
+      font-size: 1.3em;
+      color: #db0000;
+    }
+  }
+}
+
+#xslt {
+  display: none;
+}
+
+[data-text] {
+  &::before {
+    content: attr(data-text);
+  }
+}

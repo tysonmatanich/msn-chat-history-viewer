@@ -1,0 +1,481 @@
+:root {
+  --width: 290px;
+  --height: 268px;
+  --toolbar-height: 58px;
+}
+
+@font-face {
+  font-family: "Verdana";
+  src:
+    url("../fonts/verdana.woff2") format("woff2"),
+    url("../fonts/verdana.woff") format("woff"),
+    url("../fonts/verdana.ttf") format("truetype");
+  font-display: swap;
+}
+
+.msn-messenger-window {
+  width: 100%;
+  height: 100%;
+
+  overflow: hidden;
+  box-shadow:
+      2px 2px 5px #0009,
+      5px 5px 10px #000c;
+  border-radius: 11px;
+
+  >.container {
+    overflow: hidden;
+    position: relative;
+    min-width: var(--width);
+    min-height: var(--height);
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    background: #dee7f7 url('../images/ui/background_785.png') no-repeat;
+    background-position: right bottom;
+    display: grid;
+    grid-template-rows: var(--toolbar-height) 1fr 0 0;
+    font-size: 1em;
+    padding-bottom: 27px;
+
+    @media only screen and (min-width: 470px) {
+      padding-bottom: 12px;
+    }
+
+    @media only screen and (min-height: 600px) {
+      grid-template-rows: var(--toolbar-height) 1fr 112px;
+    }
+
+    >.border-window {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        url('../images/ui/main-corner-left_853.png'),
+        url('../images/ui/main-corner-right_854.png'),
+        url('../images/ui/main-left_855.png'),
+        url('../images/ui/main-right_856.png'),
+        url('../images/ui/main-bottom_857.png');
+      background-repeat: no-repeat, no-repeat, repeat-y, repeat-y, repeat-x;
+      background-position: bottom left, bottom right, bottom left, bottom right, bottom;
+      clip-path: polygon(0 var(--toolbar-height), 100% 21px, 100% 100%, 0 100%);
+      pointer-events: none;
+    }
+  }
+}
+
+.msn-messenger-toolbar {
+  overflow: hidden;
+
+  > .container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: minmax(10px, 300px) 3fr;
+    position: relative;
+    z-index: 1;
+
+    .toolbar-left {
+      place-items: center;
+      justify-content: flex-start;
+      align-items: center;
+      background-image:
+        url('../images/ui/toolbar/background/1_806.png'),
+        url('../images/ui/toolbar/background/2_805.png');
+      background-repeat: no-repeat, repeat-x;
+      background-position: top left, top;
+
+      display: grid;
+      column-gap: 20px;
+      padding-left: 30px;
+      grid-template-columns:
+        auto
+        auto;
+      > div { text-wrap: nowrap; box-sizing: border-box; }
+      > div:nth-child(n+3) { display: none; }
+
+      @media only screen and (min-width: 346px) {
+        grid-template-columns:
+          auto
+          auto
+          auto;
+        > div:nth-child(n) { display: block; }
+        > div:nth-child(n+4) { display: none; }
+      }
+
+      @media only screen and (min-width: 388px) {
+        grid-template-columns:
+          auto
+          auto
+          auto
+          auto;
+        > div:nth-child(n) { display: block; }
+        > div:nth-child(n+5) { display: none; }
+      }
+
+      @media only screen and (min-width: 470px) {
+        grid-template-columns:
+          auto
+          auto
+          auto
+          auto
+          auto;
+        > div:nth-child(n) { display: block;  }
+      }
+    }
+
+    .toolbar-right {
+      background-image:
+        url('../images/ui/toolbar/background/3_803.png'),
+        url('../images/ui/toolbar/background/5_804.png'),
+        url('../images/ui/toolbar/background/4_802.png');
+      background-repeat: no-repeat, no-repeat, repeat-x;
+      background-position: top left, top right, top;
+
+      .toolbar-top {
+        box-sizing: border-box;
+        height: 21px;
+        text-align: right;
+        padding-top: 3px;
+        padding-right: 12px;
+      }
+
+      .toolbar-bottom {
+        z-index: -1;
+        position: relative;
+        height: 26px;
+        max-width: 114px;
+        box-sizing: border-box;
+
+        background-image: url('../images/ui/toolbar/background/mini-1_807.png');
+        background-repeat: repeat-x;
+        background-position: top;
+
+        padding-left: 45px;
+        margin-right: 35px;
+        background-origin: content-box;
+
+        .buttons {
+          padding-top: 2px;
+          display: flex;
+          gap: 0 4px;
+        }
+
+        &::after {
+          content: "";
+          position: absolute;
+          top: 0;
+          left: 100%;
+          width: 35px;
+          height: 26px;
+          background-image:
+          url('../images/ui/toolbar/background/mini-2_801.png');
+          background-repeat: no-repeat;
+          background-position: top right;
+        }
+      }
+    }
+
+    .up-down {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      transform: scale(0.85);
+
+      img {
+        transform: scale(1.5);
+      }
+    }
+  }
+}
+
+.image-circular-button {
+  >.container {
+    width: 19px;
+    height: 19px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('../images/ui/toolbar/background/small-circle-button_850.png') no-repeat;
+
+    img {
+      width: 13px;
+      height: 13px;
+    }
+  }
+}
+
+.image-button {
+  margin-right: -10px;
+  position: relative;
+
+  >.container {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .text {
+    font-family: "Verdana";
+    font-size: 0.65625em;
+    letter-spacing: -0.25px;
+    color: #434C4B;
+  }
+
+  .text em {
+    text-decoration: underline;
+    font-style: normal;
+  }
+}
+
+.msn-messenger-remote-user {
+  overflow: hidden;
+
+  >.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0;
+
+    padding: 4px 0 0 9px;
+    box-sizing: border-box;
+
+    @media only screen and (min-width: 470px) {
+      grid-template-columns: 1fr 132px;
+    }
+  }
+}
+
+.msn-messenger-history-chat {
+  margin-bottom: 5px;
+  margin-right: 10px;
+  overflow: hidden;
+
+  >.container {
+    display: grid;
+    justify-content: center;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
+    font-family: "Verdana";
+    font-size: 0.625em;
+    width: 100%;
+
+    border: 1px solid #586170;
+    border-radius: 8px 8px 0 0;
+
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .subject {
+    border-radius: 8px 8px 0 0;
+    background: #ebf1fa;
+    display: flex;
+    align-items: center;
+    padding: 6px;
+    border-bottom: 1px solid #586170;
+    font-size: 1.2em;
+    line-height: normal;
+
+    strong {
+      padding-left: 3px;
+    }
+
+    .logon-address {
+      &::before {
+        content: "\00a0<";
+      }
+
+      &::after {
+        content: ">";
+      }
+    }
+  }
+
+  .history {
+    background: #fff;
+    overflow: hidden;
+    justify-content: stretch;
+  }
+}
+
+.msn-messenger-avatar {
+  display: none;
+
+  @media only screen and (min-width: 470px) {
+    display: block;
+  }
+
+  >.container {
+    width: 104px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid #586170;
+    padding-top: 3px;
+    border-radius: 8px;
+    position: relative;
+    background-color: #dee7f7;
+
+    img {
+      &.picture {
+        width: 96px;
+        height: 96px;
+        border: 1px solid #586170;
+        border-radius: 7px;
+
+        &.small {
+          width: 60px;
+          height: 60px;
+        }
+      }
+
+      &.down {
+        align-self: flex-end;
+        margin: 3px 5px;
+      }
+
+      &.expand {
+        position: absolute;
+        top: 4px;
+        right: 0;
+        transform: translateX(9px); /* TODO: Fixes subpixel rounding issue */
+      }
+    }
+  }
+}
+
+.msn-messenger-local-user {
+  display: none;
+
+  @media only screen and (min-height: 600px) {
+    display: block;
+  }
+
+  >.container {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 0;
+    padding: 4px 0 0 9px;
+    box-sizing: border-box;
+
+    @media only screen and (min-width: 470px) {
+      grid-template-columns: 1fr 132px;
+    }
+  }
+}
+
+.msn-messenger-chat {
+  margin-right: 10px;
+
+  >.container {
+    display: grid;
+    grid-template-rows: 24px 1fr 24px;
+    min-height: 105px;
+    background: #fff;
+    width: 100%;
+    border: 1px solid #586170;
+    border-radius: 6px;
+  }
+
+  .actionbar,
+  .tabs {
+    background: linear-gradient(#D8E8F7, #F5F2F9, #D8E8F7);
+  }
+
+  .actionbar {
+    border-bottom: 1px solid #586170;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+  }
+
+  .tabs {
+    border-top: 1px solid #565F70;
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 12px;
+  }
+
+  .chat {
+    display: flex;
+    justify-content: flex-end;
+    margin: 4px;
+  }
+
+  .normal {
+    border: 1px solid #93989C;
+    background: #FBFBFB;
+    box-shadow: -4px -4px 4px #C0C9E0 inset;
+    width: 58px;
+    height: 100%;
+    border-radius: 5px;
+    font-family: "Verdana";
+    font-weight: bold;
+    font-size: 0.6875em;
+    color: #969C9A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.simple-button {
+  >.container {
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    height: 100%;
+
+    img {
+      height: 16px;
+    }
+
+    .text {
+      font-family: "Verdana";
+      font-size: 0.625em;
+      color: #444;
+      display: inline-block;
+      padding-left: 2px;
+    }
+
+    .down {
+      width: 13px;
+      height: 13px;
+      transform: scale(0.8);
+      margin-left: 2px;
+      background-image: url('../images/ui/down_765.png');
+    }
+  }
+}
+
+.tab-button {
+  display: none;
+
+  >.container {
+    min-width: 25px;
+    height: 18px;
+    border: 1px solid #ABB0C6;
+    border-top: 0;
+    border-radius: 0 0 6px 6px;
+    display: flex;
+    justify-content: center;
+    background: #EDF2F8;
+  }
+
+  :host([focus]) .container {
+    background: #fff;
+    border-bottom: 3px solid #E2C47B;
+    border-top: 0;
+    transform: translateY(-1px);
+  }
+
+  img {
+    width: 16px;
+    height: 16px;
+  }
+}

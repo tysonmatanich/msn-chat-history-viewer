@@ -56,6 +56,8 @@ let emoticons = [
     img: "74_74.gif",
     key: "Party",
     text: "<:o)",
+  },
+  {
     img: "brb.gif",
     key: "Be Right Back",
     text: "(brb)",
