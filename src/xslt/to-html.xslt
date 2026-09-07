@@ -22,9 +22,18 @@
   </xsl:template>
 
   <xsl:template match="Message">
-    <xsl:variable name="TimeStart" select="substring-before(@Time, ' ')" />
-    <xsl:variable name="TimeEnd" select="substring-after(@Time, ' ')" />
-    <xsl:variable name="Time" select="concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)" />
+    <xsl:variable name="Time">
+      <xsl:choose>
+        <xsl:when test="contains(@Time, ' ')">
+          <xsl:variable name="TimeStart" select="substring-before(@Time, ' ')" />
+          <xsl:variable name="TimeEnd" select="substring-after(@Time, ' ')" />
+          <xsl:value-of select="concat(substring($TimeStart, 1, string-length($TimeStart) - 3), ' ', $TimeEnd)" />
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="substring(@Time, 1, string-length(@Time) - 3)" />
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
     <xsl:variable name="FromLogonName" select="From/User/@LogonName" />
     <xsl:variable name="IsSelf" select="$RootLogonName = $FromLogonName" />
     <div class="msn_message is-self-{$IsSelf}" data-session="{@SessionID}">
